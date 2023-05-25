@@ -4,6 +4,10 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter_application_1/utilities/constants.dart';
 import 'package:flutter_application_1/screens//loginScreens/login.dart';
 
+//Firebase
+import 'package:flutter_application_1/authentication/authentication.dart';
+import 'package:flutter_application_1/authentication/authenticationexceptions.dart';
+
 class ForgotPassword extends StatefulWidget {
     @override
     ForgotPasswordScreen createState() => ForgotPasswordScreen();
@@ -14,6 +18,14 @@ class ForgotPasswordScreen extends State<ForgotPassword> {
   final GlobalKey<FormState> _Form = GlobalKey<FormState>();
   bool _passwordResetEmailNotifVisibility = false;
   String _validEmailText = '';
+  bool _emailnotregisteredNotif = false;
+  final _authService = AuthenticationService();
+
+  @override
+  void dispose() {
+    _emailText.dispose();
+    super.dispose();
+  }
 
     Widget _email() {
       return Column(
@@ -33,11 +45,12 @@ class ForgotPasswordScreen extends State<ForgotPassword> {
               controller: _emailText,
               validator: (String? validator) {
               if (validator!.isEmpty) return '              *Empty Field';
-              if (validator != null) {
                 if (!EmailValidator.validate(validator)) {
                   return '              *Enter a Valid Email Address';
                 }
-              }
+                if (_emailnotregisteredNotif) {
+                  return '              *Email is not registered';
+                }
               return null;
             },
               keyboardType: TextInputType.emailAddress,
@@ -94,22 +107,26 @@ class ForgotPasswordScreen extends State<ForgotPassword> {
     );
   }
 
-  void resetPassword() {
-    //check all the stuff first
-    if(_Form.currentState != null) {
-       _Form.currentState!.validate();
-    }
+  void resetPassword() async {
+    _emailnotregisteredNotif = false;
+    _passwordResetEmailNotifVisibility = false;
     if (_Form.currentState!.validate() == true) {
-      //Can proceed to send reset psd email to user
-      setState(() { //Show password reset email pop up
-        _validEmailText = _emailText.text;
-        _passwordResetEmailNotifVisibility = true;
-      });
-    } else {
-      setState(() { //Hide password reset email pop up
-        _passwordResetEmailNotifVisibility = false;
-      });
+      //Send password reset email
+      final _status = await _authService.resetPassword(
+        email: _emailText.text
+        );
+      if (_status == AuthStatus.successful) {
+        setState(() { //Show password reset email pop up
+          _validEmailText = _emailText.text;
+          _passwordResetEmailNotifVisibility = true;
+        });
+      }
+      else { //Email is not registered
+        _emailnotregisteredNotif = true;
+      }
     }
+    _Form.currentState!.validate();
+    setState(() {});
   }
 
     Widget _backToLoginBtn() {

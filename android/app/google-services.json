@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "652753902156",
+    "project_id": "nusliving-a83dc",
+    "storage_bucket": "nusliving-a83dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652753902156:android:b629024bc4d6d46e8bb2e9",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "652753902156-6gpq2e53v4sui42het203jmuogf40c8g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_ZVPyMdsWFhpZI5dbKih3xWNgXWM2OAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "652753902156-6gpq2e53v4sui42het203jmuogf40c8g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "652753902156-ps1aub68596og5r787po0dnq87utvnj2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterApplication1.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

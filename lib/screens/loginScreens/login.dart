@@ -4,6 +4,11 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter_application_1/utilities/constants.dart';
 import 'package:flutter_application_1/screens/loginScreens/signup.dart';
 import 'package:flutter_application_1/screens/loginScreens/forgotpassword.dart';
+import 'package:flutter_application_1/screens/home.dart';
+
+//Firebase
+import 'package:flutter_application_1/authentication/authentication.dart';
+import 'package:flutter_application_1/authentication/authenticationexceptions.dart';
 
 class Login extends StatefulWidget {
     @override
@@ -16,7 +21,14 @@ class LoginScreen extends State<Login> {
   final TextEditingController _emailText = TextEditingController();
   final TextEditingController _passwordText = TextEditingController();
   final GlobalKey<FormState> _Form = GlobalKey<FormState>();
+  final _authService = AuthenticationService();
 
+  @override
+  void dispose() {
+    _emailText.dispose();
+    _passwordText.dispose();
+    super.dispose();
+  }
     
     Widget _email() {
       return Column(
@@ -36,10 +48,8 @@ class LoginScreen extends State<Login> {
               controller: _emailText,
               validator: (String? validator) {
               if (validator!.isEmpty) return '              *Empty Field';
-              if (validator != null) {
-                if (!EmailValidator.validate(validator)) {
-                  return '              *Enter a Valid Email Address';
-                }
+              if (!EmailValidator.validate(validator)) {
+                return '              *Enter a Valid Email Address';
               }
               return null;
             },
@@ -160,21 +170,35 @@ class LoginScreen extends State<Login> {
     );
   }
 
-  void login() {
-    if(_Form.currentState != null){ //Validate that form to check for empty fields and valid email
-    _Form.currentState!.validate();
-    }
-    if (_Form.currentState!.validate() == true) {
-      
-      /*if (login fail code) {
-        setState(() { //Display notif if Login fails
-            _notifText = 'Failed to Login. Incorrect Email Address/Password.';
+  void login() async {
+    setState(() {
+      _notifTextVisibility = false;
+    });
+    if (_Form.currentState!.validate() == true) { //Validate that form to check for empty fields and valid email 
+      final _status = await _authService.login(
+        email: _emailText.text.trim(),
+        password: _passwordText.text,
+      );
+      if (_status == AuthStatus.emailNotVerified) {
+        setState(() { //Display notif that email address is not verified
+          _notifText = 'Email Address is not verified. We have re-sent a verification link to your email address.';
+          _notifTextVisibility = true;
         });
-
+        //Resend email verification to user's email address
+        _authService.resendVerificationEmail(
+          email: _emailText.text.trim(),
+          password: _passwordText.text, 
+        );
+      }
+      else if (_status != AuthStatus.successful) {
+        setState(() { //Display notif if Login fails
+            _notifText = 'Failed to Login. Incorrect Email Address or Password.';
+            _notifTextVisibility = true;
+        }); 
       } else {
-          //Go to home page
-          //Navigator.push(context, MaterialPageRoute(builder: (context) =>  HomePage()));
-      }*/
+          //Login successful, go to Home page
+          Navigator.push(context, MaterialPageRoute(builder: (context) =>  Home()));
+      }
     }
   }
 
