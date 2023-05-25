@@ -1,6 +1,6 @@
 # NUSLiving
 
-TEAM ZAYA ID 5999
+ORBITAL TEAM ZAYA ID 5999
 
 ## Getting Started
 
