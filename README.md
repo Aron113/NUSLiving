@@ -1,6 +1,6 @@
-# flutter_application_1
+# NUSLiving
 
-A new Flutter project.
+TEAM ZAYA ID 5999
 
 ## Getting Started
 
