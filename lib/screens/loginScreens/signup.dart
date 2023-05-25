@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/utilities/constants.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_application_1/screens/loginScreens/verifyemail.dart';
-import 'package:flutter_application_1/utilities/constants.dart';
 import 'package:flutter_application_1/screens/loginScreens/login.dart';
-import 'package:flutter_application_1/screens/loginScreens/forgotpassword.dart';
+
+//Firebase
+import 'package:flutter_application_1/authentication/authentication.dart';
+import 'package:flutter_application_1/authentication/authenticationexceptions.dart';
 
 class SignUp extends StatefulWidget {
     @override
@@ -17,6 +20,17 @@ class SignUpScreen extends State<SignUp> {
   final TextEditingController _passwordText = TextEditingController();
   final TextEditingController _repeatpasswordText = TextEditingController();
   final GlobalKey<FormState> _passwordForm = GlobalKey<FormState>();
+  final _authService = AuthenticationService();
+  bool _statusNotifier = false; //Used as boolean for 'Email already in use' notif
+
+  @override
+  void dispose() {
+    _nameText.dispose();
+    _emailText.dispose();
+    _passwordText.dispose();
+    _repeatpasswordText.dispose();
+    super.dispose();
+  }
 
   Widget _name() {
     return Column(
@@ -78,16 +92,12 @@ class SignUpScreen extends State<SignUp> {
             controller: _emailText,
             validator: (String? validator) {
               if (validator!.isEmpty) return '              *Empty Field';
-              if (validator != null) {
-                if (!EmailValidator.validate(validator)) {
-                  return '              *Enter a Valid Email Address';
-                }
+              if (!EmailValidator.validate(validator)) {
+                return '              *Enter a Valid Email Address';
               }
-              /*if (validator != null) {
-                if (Check that email has not been registered) {
-                  return '              *Email Address has already been registered';
-                }
-              }*/
+              if (_statusNotifier) {
+                return '              *Email Address has already been registered';
+              }
               return null;
             },
             keyboardType: TextInputType.emailAddress,
@@ -229,16 +239,27 @@ class SignUpScreen extends State<SignUp> {
     );
   }
 
-  void register() {
-    //check all the stuff first
-    if(_passwordForm.currentState != null) {
-       _passwordForm.currentState!.validate();
-    }
+  void register() async {
+    _statusNotifier = false;
     if (_passwordForm.currentState!.validate() == true) {
-      //Can proceed to create account in backend
-      //pass variable of successful account creation and to login again, sth like 'Account creation successful'
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>  VerifyEmail(emailtext:_emailText.text)));
+      //Proceed to create account
+      final _status = await _authService.createAccount(
+        email: _emailText.text.trim(),
+        password: _passwordText.text,
+        name: _nameText.text,
+      );
+      if (_status == AuthStatus.successful) {
+        //pass variable of successful account creation and to login again, sth like 'Account creation successful'
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  VerifyEmail(emailtext:_emailText.text)));
+      }
+      else if (_status == AuthStatus.emailAlreadyExists ) {
+          _statusNotifier = true;
+      } else { //Error not due to email already existing
+        _statusNotifier = false;
+      }
     }
+    _passwordForm.currentState!.validate();
+    setState(() {});
   }
 
   Widget _buildSignInBtn() {
