@@ -1,4 +1,4 @@
-import 'package:flutter_application_1/authentication/authenticationexceptions.dart';
+import 'package:NUSLiving/authentication/authenticationexceptions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenticationService {

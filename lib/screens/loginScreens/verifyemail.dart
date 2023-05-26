@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/utilities/constants.dart';
-import 'package:flutter_application_1/screens/loginScreens/login.dart';
+import 'package:NUSLiving/utilities/constants.dart';
+import 'package:NUSLiving/screens/loginScreens/login.dart';
 
 class VerifyEmail extends StatefulWidget {
     const VerifyEmail({Key? key, required this.emailtext}) :super(key: key);
