@@ -1,4 +1,4 @@
-import 'package:NUSLiving/authentication/authenticationexceptions.dart';
+import 'package:NUSLiving/authentication/authentication_exceptions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthenticationService {
@@ -10,8 +10,10 @@ class AuthenticationService {
     required String password,
   }) async {
     try {
-      UserCredential loginUser= await auth.signInWithEmailAndPassword(email: email, password: password);
-      if (loginUser.user!.emailVerified) { //Check that email address is verified
+      UserCredential loginUser = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      if (loginUser.user!.emailVerified) {
+        //Check that email address is verified
         _status = AuthStatus.successful;
       } else {
         _status = AuthStatus.emailNotVerified;
@@ -26,7 +28,8 @@ class AuthenticationService {
     required String email,
     required String password,
   }) async {
-    UserCredential loginUser= await auth.signInWithEmailAndPassword(email: email, password: password);
+    UserCredential loginUser =
+        await auth.signInWithEmailAndPassword(email: email, password: password);
     await loginUser.user!.sendEmailVerification();
   }
 
@@ -53,20 +56,17 @@ class AuthenticationService {
     return _status;
   }
 
-  Future<AuthStatus> resetPassword({
-    required String email
-  }) async {
-     try {
-        await auth.sendPasswordResetEmail(email: email);
-        _status = AuthStatus.successful;
-      } on FirebaseAuthException catch (e) {
-        _status = AuthExceptionHandler.handleAuthException(e);
-      }
+  Future<AuthStatus> resetPassword({required String email}) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      _status = AuthStatus.successful;
+    } on FirebaseAuthException catch (e) {
+      _status = AuthExceptionHandler.handleAuthException(e);
+    }
     return _status;
   }
 
   Future<void> logout() async {
     await auth.signOut();
   }
-
 }

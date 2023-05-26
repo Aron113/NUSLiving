@@ -7,11 +7,11 @@ import 'package:NUSLiving/screens/loginScreens/login.dart';
 
 //Firebase
 import 'package:NUSLiving/authentication/authentication.dart';
-import 'package:NUSLiving/authentication/authenticationexceptions.dart';
+import 'package:NUSLiving/authentication/authentication_exceptions.dart';
 
 class SignUp extends StatefulWidget {
-    @override
-    SignUpScreen createState() => SignUpScreen();
+  @override
+  SignUpScreen createState() => SignUpScreen();
 }
 
 class SignUpScreen extends State<SignUp> {
@@ -21,7 +21,8 @@ class SignUpScreen extends State<SignUp> {
   final TextEditingController _repeatpasswordText = TextEditingController();
   final GlobalKey<FormState> _passwordForm = GlobalKey<FormState>();
   final _authService = AuthenticationService();
-  bool _statusNotifier = false; //Used as boolean for 'Email already in use' notif
+  bool _statusNotifier =
+      false; //Used as boolean for 'Email already in use' notif
 
   @override
   void dispose() {
@@ -53,21 +54,20 @@ class SignUpScreen extends State<SignUp> {
               return null;
             },
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 16.0),
-              prefixIcon: Icon(
-                Icons.person,
-                color: Colors.white,
-              ),
-              hintText: 'Enter your Name',
-              hintStyle: kHintTextStyle,
-              helperText: ' '
-            ),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 16.0),
+                prefixIcon: const Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
+                hintText: 'Enter your Name',
+                hintStyle: kHintTextStyle,
+                helperText: ' '),
           ),
         ),
       ],
@@ -101,14 +101,14 @@ class SignUpScreen extends State<SignUp> {
               return null;
             },
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(top: 16.0),
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.email,
                 color: Colors.white,
               ),
@@ -130,7 +130,7 @@ class SignUpScreen extends State<SignUp> {
           'Password',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -140,7 +140,8 @@ class SignUpScreen extends State<SignUp> {
             controller: _passwordText,
             validator: (String? validator) {
               if (validator!.isEmpty) return '              *Empty Field';
-              if (validator.length < 8 ) return '              *Password needs to be at least 8 characters';
+              if (validator.length < 8)
+                return '              *Password needs to be at least 8 characters';
               return null;
             },
             obscureText: true,
@@ -149,23 +150,22 @@ class SignUpScreen extends State<SignUp> {
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 16.0),
-              prefixIcon: Icon(
-                Icons.lock,
-                color: Colors.white,
-              ),
-              hintText: 'Enter your Password',
-              hintStyle: kHintTextStyle,
-              helperText: ' '
-            ),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 16.0),
+                prefixIcon: const Icon(
+                  Icons.lock,
+                  color: Colors.white,
+                ),
+                hintText: 'Enter your Password',
+                hintStyle: kHintTextStyle,
+                helperText: ' '),
           ),
         ),
       ],
     );
   }
 
-  Widget _repeatpassword () {
+  Widget _repeatpassword() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -173,7 +173,7 @@ class SignUpScreen extends State<SignUp> {
           'Confirm Password',
           style: kLabelStyle,
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Container(
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
@@ -183,25 +183,26 @@ class SignUpScreen extends State<SignUp> {
             controller: _repeatpasswordText,
             validator: (String? validator) {
               if (validator!.isEmpty) return '              *Empty Field';
-              if (validator.compareTo(_passwordText.text) != 0) return '              *The passwords do not match';
+              if (validator.compareTo(_passwordText.text) != 0) {
+                return '              *The passwords do not match';
+              }
               return null;
             },
             obscureText: true,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
             ),
             decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 16.0),
-              prefixIcon: Icon(
-                Icons.lock,
-                color: Colors.white,
-              ),
-              hintText: 'Re-enter your Password',
-              hintStyle: kHintTextStyle,
-              helperText: ' '
-            ),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 16.0),
+                prefixIcon: const Icon(
+                  Icons.lock,
+                  color: Colors.white,
+                ),
+                hintText: 'Re-enter your Password',
+                hintStyle: kHintTextStyle,
+                helperText: ' '),
           ),
         ),
       ],
@@ -210,22 +211,19 @@ class SignUpScreen extends State<SignUp> {
 
   Widget _buildRegisterBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
+      padding: const EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                elevation: 5.0,
-                padding: EdgeInsets.all(15.0),
-                shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                ),
-                backgroundColor: Colors.white,
-              ),
-              onPressed: () => 
-                {print('SignUp Button Pressed'),
-                register(),
-                },
-        child: Text(
+        style: ElevatedButton.styleFrom(
+          elevation: 5.0,
+          padding: const EdgeInsets.all(15.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          backgroundColor: Colors.white,
+        ),
+        onPressed: register,
+        child: const Text(
           'REGISTER',
           style: TextStyle(
             color: Color(0xFF527DAA),
@@ -243,18 +241,21 @@ class SignUpScreen extends State<SignUp> {
     _statusNotifier = false;
     if (_passwordForm.currentState!.validate() == true) {
       //Proceed to create account
-      final _status = await _authService.createAccount(
+      final status = await _authService.createAccount(
         email: _emailText.text.trim(),
         password: _passwordText.text,
         name: _nameText.text,
       );
-      if (_status == AuthStatus.successful) {
+      if (status == AuthStatus.successful) {
         //pass variable of successful account creation and to login again, sth like 'Account creation successful'
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>  VerifyEmail(emailtext:_emailText.text)));
-      }
-      else if (_status == AuthStatus.emailAlreadyExists ) {
-          _statusNotifier = true;
-      } else { //Error not due to email already existing
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => VerifyEmail(emailtext: _emailText.text)));
+      } else if (status == AuthStatus.emailAlreadyExists) {
+        _statusNotifier = true;
+      } else {
+        //Error not due to email already existing
         _statusNotifier = false;
       }
     }
@@ -264,11 +265,9 @@ class SignUpScreen extends State<SignUp> {
 
   Widget _buildSignInBtn() {
     return GestureDetector(
-      onTap: () => {
-            signin()
-            },
+      onTap: () => {signin()},
       child: RichText(
-        text: TextSpan(
+        text: const TextSpan(
           children: [
             TextSpan(
               text: 'Already have an Account? ',
@@ -293,7 +292,8 @@ class SignUpScreen extends State<SignUp> {
   }
 
   void signin() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) =>  Login())); //Go to Login page
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => Login())); //Go to Login page
   }
 
   @override
@@ -308,7 +308,7 @@ class SignUpScreen extends State<SignUp> {
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -322,29 +322,32 @@ class SignUpScreen extends State<SignUp> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 40.0,
                     vertical: 90.0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Image(image: AssetImage('assets/images/logo.png'), height: 50.00,),
-                      Text(
-                        'NUSLiving',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 204, 227, 236),
-                          fontFamily: 'OpenSans',
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.normal,
-                        )
+                      const Image(
+                        image: AssetImage('assets/images/logo.png'),
+                        height: 50.00,
                       ),
-                      SizedBox(height: 30.0,),
-                      Text(
+                      const Text('NUSLiving',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 204, 227, 236),
+                            fontFamily: 'OpenSans',
+                            fontSize: 32.0,
+                            fontWeight: FontWeight.normal,
+                          )),
+                      const SizedBox(
+                        height: 30.0,
+                      ),
+                      const Text(
                         'Sign Up',
                         style: TextStyle(
                           color: Colors.white,
@@ -353,21 +356,25 @@ class SignUpScreen extends State<SignUp> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 1.0),
+                      const SizedBox(height: 1.0),
                       Form(
-                        key: _passwordForm,
-                        child: Column(children: <Widget>[
-                          _name(),
-                          SizedBox(height: 10.0,),
-                          _email(),
-                          SizedBox(height: 10.0,),
-                          _password(),
-                          SizedBox(height: 10.0,),
-                          _repeatpassword(),
-                          _buildRegisterBtn(),
-                        ]
-                      )
-                      ),
+                          key: _passwordForm,
+                          child: Column(children: <Widget>[
+                            _name(),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            _email(),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            _password(),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            _repeatpassword(),
+                            _buildRegisterBtn(),
+                          ])),
                       _buildSignInBtn()
                     ],
                   ),
@@ -378,5 +385,5 @@ class SignUpScreen extends State<SignUp> {
         ),
       ),
     );
-}
+  }
 }
