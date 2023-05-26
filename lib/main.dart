@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/loginScreens/signup.dart';
-import 'package:flutter_application_1/screens/loginScreens/login.dart';
+import 'package:NUSLiving/screens/loginScreens/signup.dart';
+import 'package:NUSLiving/screens/loginScreens/login.dart';
 
 //Firebase
 import 'package:firebase_core/firebase_core.dart';

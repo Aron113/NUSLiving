@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter_application_1/utilities/constants.dart';
-import 'package:flutter_application_1/screens//loginScreens/login.dart';
+import 'package:NUSLiving/utilities/constants.dart';
+import 'package:NUSLiving/screens//loginScreens/login.dart';
 
 //Firebase
-import 'package:flutter_application_1/authentication/authentication.dart';
-import 'package:flutter_application_1/authentication/authenticationexceptions.dart';
+import 'package:NUSLiving/authentication/authentication.dart';
+import 'package:NUSLiving/authentication/authenticationexceptions.dart';
 
 class ForgotPassword extends StatefulWidget {
     @override
