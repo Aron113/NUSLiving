@@ -102,7 +102,7 @@ class LoginScreen extends State<Login> {
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 16.0),
+              contentPadding: const EdgeInsets.only(top: 16.0),
               prefixIcon: const Icon(
                 Icons.lock,
                 color: Colors.white,

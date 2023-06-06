@@ -4,50 +4,50 @@ import 'package:NUSLiving/utilities/constants.dart';
 import 'package:NUSLiving/screens/loginScreens/login.dart';
 
 class VerifyEmail extends StatefulWidget {
-    const VerifyEmail({Key? key, required this.emailtext}) :super(key: key);
-    final String emailtext;
+  const VerifyEmail({Key? key, required this.emailtext}) : super(key: key);
+  final String emailtext;
 
-    @override
-    VerifyEmailScreen createState() => VerifyEmailScreen();
+  @override
+  VerifyEmailScreen createState() => VerifyEmailScreen();
 }
 
 class VerifyEmailScreen extends State<VerifyEmail> {
-
-    Widget _backToLoginBtn() {
-      return GestureDetector(
-        onTap: () => {
-              print('Back to Login Button Pressed'),
-              backToLogin(),
-              },
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: 'Back to ',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w400,
-                ),
+  Widget _backToLoginBtn() {
+    return GestureDetector(
+      onTap: () => {
+        print('Back to Login Button Pressed'),
+        backToLogin(),
+      },
+      child: RichText(
+        text: const TextSpan(
+          children: [
+            TextSpan(
+              text: 'Back to ',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.w400,
               ),
-              TextSpan(
-                text: 'Login',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
+            ),
+            TextSpan(
+              text: 'Login',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
-    }
+      ),
+    );
+  }
 
   void backToLogin() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) =>  Login())); //Go to Login page
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => Login())); //Go to Login page
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +60,7 @@ class VerifyEmailScreen extends State<VerifyEmail> {
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -74,29 +74,33 @@ class VerifyEmailScreen extends State<VerifyEmail> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 40.0,
                     vertical: 90.0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Image(image: AssetImage('assets/images/logo.png'), height: 50.00,),
-                      Text(
-                        'NUSLiving',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 204, 227, 236),
-                          fontFamily: 'OpenSans',
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.normal,
-                        )
+                      const Image(
+                        image: AssetImage('assets/images/logo.png'),
+                        height: 50.00,
                       ),
-                      Image(image: AssetImage('assets/images/greentick.gif'), height: 300.00,),
-                      Text(
+                      const Text('NUSLiving',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 204, 227, 236),
+                            fontFamily: 'OpenSans',
+                            fontSize: 32.0,
+                            fontWeight: FontWeight.normal,
+                          )),
+                      const Image(
+                        image: AssetImage('assets/images/greentick.gif'),
+                        height: 300.00,
+                      ),
+                      const Text(
                         'Registration Successful',
                         style: TextStyle(
                           color: Colors.white,
@@ -105,17 +109,17 @@ class VerifyEmailScreen extends State<VerifyEmail> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10.0),
-                      Text('Your account was successfully registered. We have sent an email to ${widget.emailtext} to verify your email address. After you have verified your email, simply login to begin using NUSLiving! ',
-                           textAlign: TextAlign.center,
-                           style: TextStyle (
-                                color: Color.fromARGB(255, 233, 233, 233),
-                                fontFamily: 'OpenSans',
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.normal,
-                            )
-                      ),
-                      SizedBox(height: 80),
+                      const SizedBox(height: 10.0),
+                      Text(
+                          'Your account was successfully registered. We have sent an email to ${widget.emailtext} to verify your email address. After you have verified your email, simply login to begin using NUSLiving! ',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Color.fromARGB(255, 233, 233, 233),
+                            fontFamily: 'OpenSans',
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.normal,
+                          )),
+                      const SizedBox(height: 80),
                       _backToLoginBtn()
                     ],
                   ),
