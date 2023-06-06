@@ -38,6 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.13.0
   firebase_auth: ^4.6.1
+  google_fonts: ^5.0.0
+  sidebarx: ^0.15.0
 
 dev_dependencies:
   flutter_test:
@@ -65,7 +67,8 @@ flutter:
   assets:
      - assets/images/logo.png
      - assets/images/greentick.gif
-     #- images/a_dot_ham.jpeg
+     - assets/images/
+  #- images/a_dot_ham.jpeg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
