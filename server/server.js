@@ -5,15 +5,13 @@ const app = require('./app');
 dotenv.config({path : './config.env'});
 
 mongoose.connect(process.env.DATABASE, {
-    useNewUrlParser : true, 
-    useCreateIndex : true, 
-    useFindAndModify : false,
+    useNewUrlParser: true,
 }).then( con => {
     console.log('DB up and running')
-})
+});
 
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log('App running on port ${port}');
+    console.log(`App running on port ${port}`);
 });
