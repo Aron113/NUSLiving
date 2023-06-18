@@ -1,8 +1,14 @@
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import '../../models/user.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:NUSLiving/screens/home.dart';
 
 class CreateAnAccountScreen extends StatefulWidget {
-  const CreateAnAccountScreen({super.key});
+  const CreateAnAccountScreen({super.key, required this.uid});
+
+  final String uid;
 
   @override
   State<CreateAnAccountScreen> createState() {
@@ -12,6 +18,51 @@ class CreateAnAccountScreen extends StatefulWidget {
 
 class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
   final _formKey = GlobalKey<FormState>();
+  var _username = '';
+  var _telegramHandle = '';
+  var _yearOfStudy = 1;
+  var _house = '';
+
+  void submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      var res = await http.post(
+        Uri.parse('http://10.0.2.2:3000/api/v1/user/signup'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: json.encode({
+          "username": _username,
+          "uid": widget.uid,
+          "telegramHandle": _telegramHandle,
+          "year": _yearOfStudy,
+          "house": _house,
+        }),
+      );
+
+      if (res.statusCode == 201) {
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) =>
+                  Home(myTasks: const [], uid: widget.uid),
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Sucessfully submitted')),
+          );
+        }
+        _formKey.currentState!.reset();
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('error : $res.message')),
+          );
+        }
+      }
+    }
+  }
 
   @override
   Widget build(context) {
@@ -21,7 +72,7 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
         title: Row(
           children: [
             Image.asset(
-              '/Users/zhengyu/Desktop/NUSLiving/assets/images/nus_logo_full-vertical.png',
+              "/Users/zhengyu/Desktop/NUSLiving/client/assets/images/nus_logo_full-vertical.png",
               width: 35,
             ),
             const SizedBox(width: 20),
@@ -51,144 +102,195 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
             child: Form(
               key: _formKey,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Username',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    maxLength: 20,
-                    decoration: const InputDecoration(
-                      isDense: true, // Added this
-                      contentPadding: EdgeInsets.all(8),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Username',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
-                    validator: (value) {
-                      if (value == null ||
-                          value.isEmpty ||
-                          value.trim().length <= 1 ||
-                          value.trim().length > 50) {
-                        return 'Must be between 1 and 50 characters.';
-                      }
-                      return null;
-                    },
-                  ),
-                  Text(
-                    'Telegram Handle',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      isDense: true, // Added this
-                      contentPadding: EdgeInsets.all(8),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
-                        ),
-                      ),
+                    const SizedBox(
+                      height: 10,
                     ),
-                    validator: (value) {
-                      if (value == null ||
-                          value.isEmpty ||
-                          value.trim().length <= 1 ||
-                          value.trim().length > 50) {
-                        return 'Must be between 1 and 50 characters.';
-                      }
-                      return null;
-                    },
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              'Year of Study',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            DropdownButtonFormField(
-                              padding: const EdgeInsets.all(5),
-                              items: [
-                                for (int i = 1; i < 5; i++)
-                                  DropdownMenuItem(
-                                    value: i,
-                                    child: Text(
-                                      '$i',
-                                    ),
-                                  ),
-                              ],
-                              onChanged: (value) {},
-                            ),
-                          ],
+                    TextFormField(
+                      maxLength: 20,
+                      decoration: const InputDecoration(
+                        isDense: true, // Added this
+                        contentPadding: EdgeInsets.all(8),
+
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
                         ),
                       ),
-                      const SizedBox(width: 40),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Text(
-                              'House',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            DropdownButtonFormField(
-                              padding: const EdgeInsets.all(5),
-                              items: [
-                                for (final house in House.values)
-                                  DropdownMenuItem(
-                                    value: house.name,
-                                    child: Row(
-                                      children: [
-                                        const SizedBox(width: 5),
-                                        Text(house.name),
-                                      ],
-                                    ),
-                                  ),
-                              ],
-                              onChanged: (value) {},
-                            ),
-                          ],
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.trim().length <= 4 ||
+                            value.trim().length > 50) {
+                          return 'Must be between 5 and 20 characters.';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _username = value!;
+                      },
+                    ),
+                    Text(
+                      'Telegram Handle',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        isDense: true, // Added this
+                        contentPadding: EdgeInsets.all(8),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ],
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.trim().length <= 1 ||
+                            value.trim().length > 50) {
+                          return 'Must be between 1 and 50 characters.';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _telegramHandle = value!;
+                      },
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                'Year of Study',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              DropdownButtonFormField(
+                                padding: const EdgeInsets.all(5),
+                                items: [
+                                  for (int i = 1; i < 5; i++)
+                                    DropdownMenuItem(
+                                      value: i,
+                                      child: Text(
+                                        '$i',
+                                      ),
+                                    ),
+                                ],
+                                onChanged: (value) {},
+                                onSaved: (value) {
+                                  _yearOfStudy = value!;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 40),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                'House',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              DropdownButtonFormField(
+                                padding: const EdgeInsets.all(5),
+                                items: [
+                                  for (final house in [
+                                    "aquila",
+                                    "noctua",
+                                    "ursa",
+                                    "leo",
+                                    "draco"
+                                  ])
+                                    DropdownMenuItem(
+                                      value: house,
+                                      child: Row(
+                                        children: [
+                                          const SizedBox(width: 5),
+                                          Text(house),
+                                        ],
+                                      ),
+                                    ),
+                                ],
+                                onChanged: (value) {},
+                                onSaved: (value) {
+                                  _house = value!;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.onPrimary,
+                            foregroundColor: Colors.white,
+                          ),
+                          onPressed: () {
+                            // Validate returns true if the form is valid, or false otherwise.
+                            _formKey.currentState!.reset();
+                          },
+                          child: const Text('Reset'),
+                        ),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.onPrimary,
+                            foregroundColor: Colors.white,
+                          ),
+                          onPressed: (submitForm),
+                          child: const Text('Submit'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

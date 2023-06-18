@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:NUSLiving/utilities/constants.dart';
-import 'package:NUSLiving/screens/loginScreens/signup.dart';
-import 'package:NUSLiving/screens/loginScreens/forgotpassword.dart';
-import 'package:NUSLiving/screens/home.dart';
 
 //Firebase
 import 'package:NUSLiving/authentication/authentication.dart';
 import 'package:NUSLiving/authentication/authentication_exceptions.dart';
+
+//widgets
+import 'package:NUSLiving/utilities/constants.dart';
+import 'package:NUSLiving/screens/loginScreens/signup.dart';
+import 'package:NUSLiving/screens/loginScreens/forgotpassword.dart';
+import 'package:NUSLiving/screens/home.dart';
+import 'package:NUSLiving/models/task.dart';
+import 'package:NUSLiving/screens/user_screens/createAnAccount.dart';
+import 'package:NUSLiving/utilities/myFunctions.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -60,7 +65,7 @@ class LoginScreen extends State<Login> {
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 16.0),
+              contentPadding: const EdgeInsets.only(top: 16.0),
               prefixIcon: const Icon(
                 Icons.email,
                 color: Colors.white,
@@ -172,11 +177,11 @@ class LoginScreen extends State<Login> {
     });
     if (_form.currentState!.validate() == true) {
       //Validate that form to check for empty fields and valid email
-      final _status = await _authService.login(
+      final authResult = await _authService.login(
         email: _emailText.text.trim(),
         password: _passwordText.text,
       );
-      if (_status == AuthStatus.emailNotVerified) {
+      if (authResult.status == AuthStatus.emailNotVerified) {
         setState(() {
           //Display notif that email address is not verified
           _notifText =
@@ -188,7 +193,7 @@ class LoginScreen extends State<Login> {
           email: _emailText.text.trim(),
           password: _passwordText.text,
         );
-      } else if (_status != AuthStatus.successful) {
+      } else if (authResult.status != AuthStatus.successful) {
         setState(() {
           //Display notif if Login fails
           _notifText = 'Failed to Login. Incorrect Email Address or Password.';
@@ -196,8 +201,31 @@ class LoginScreen extends State<Login> {
         });
       } else {
         //Login successful, go to Home page
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home()));
+        bool userPresent = await MyFunctions.getUserPresent(authResult.uid);
+        print(userPresent);
+        if (userPresent) {
+          var tasks = await MyFunctions.getUserTasks(authResult.uid);
+          if (!mounted) return;
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(
+                uid: authResult.uid,
+                myTasks: tasks,
+              ),
+            ),
+          );
+        } else {
+          if (!mounted) return;
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CreateAnAccountScreen(
+                uid: authResult.uid,
+              ),
+            ),
+          );
+        }
       }
     }
   }
@@ -334,7 +362,7 @@ class LoginScreen extends State<Login> {
                         ]),
                       ),
                       const SizedBox(
-                        height: 90.0,
+                        height: 6.0,
                       ),
                       _buildSignupBtn(),
                     ],
