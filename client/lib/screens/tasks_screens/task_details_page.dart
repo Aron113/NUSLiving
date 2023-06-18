@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../models/task.dart';
-import '../../data/tasks.dart';
 
 class TaskDetailsPage extends StatelessWidget {
-  TaskDetailsPage({super.key});
-  final task = tasks[0];
+  const TaskDetailsPage({super.key, required this.task});
+  final Task task;
 
   @override
   Widget build(context) {
@@ -14,7 +13,7 @@ class TaskDetailsPage extends StatelessWidget {
         title: Row(
           children: [
             Image.asset(
-              '/Users/zhengyu/Desktop/NUSLiving/assets/images/nus_logo_full-vertical.png',
+              "/Users/zhengyu/Desktop/NUSLiving/client/assets/images/nus_logo_full-vertical.png",
               width: 35,
             ),
             const SizedBox(width: 20),
@@ -46,8 +45,7 @@ class TaskDetailsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       task.title,
@@ -56,25 +54,21 @@ class TaskDetailsPage extends StatelessWidget {
                               // color: Colors.white,
                               color: Theme.of(context).colorScheme.onPrimary),
                     ),
-                    const SizedBox(
-                      width: 250,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.star_border,
+                          size: 30,
+                        ),
+                        const SizedBox(
+                          height: 7,
+                        ),
+                        Text(
+                          task.dueDate.toString(),
+                        ),
+                      ],
                     ),
-                    const Icon(
-                      Icons.star_border,
-                      size: 30,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 7,
-                ),
-                Row(
-                  children: [
-                    Text(task.dueDate),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(task.time)
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -97,7 +91,7 @@ class TaskDetailsPage extends StatelessWidget {
                   height: 50,
                 ),
                 Text(
-                  'Posted by ${task.user}',
+                  'Posted by ${task.author}',
                   style: Theme.of(context).textTheme.bodySmall!,
                 )
               ],
@@ -114,7 +108,11 @@ class TaskDetailsPage extends StatelessWidget {
             fixedSize: const Size(10, 20),
             backgroundColor: Theme.of(context).colorScheme.onSecondary,
           ),
-          child: Text('Apply', style: Theme.of(context).textTheme.bodyMedium),
+          child: Text('Apply',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: Colors.white)),
         ),
       ),
     );

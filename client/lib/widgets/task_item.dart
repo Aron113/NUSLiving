@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:NUSLiving/models/task.dart';
 import 'package:flutter/material.dart';
+import 'package:NUSLiving/screens/tasks_screens/task_details_page.dart';
+import 'package:NUSLiving/utilities/myFunctions.dart';
 
 class TaskItem extends StatelessWidget {
   final Task task;
@@ -24,49 +26,50 @@ class TaskItem extends StatelessWidget {
                 spreadRadius: 1.5,
               ),
             ]),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  task.title,
-                  style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                      // color: Colors.white,
-                      color: Theme.of(context).colorScheme.onPrimary),
-                ),
-                const SizedBox(
-                  width: 230,
-                ),
-                Column(children: [
-                  const Icon(
-                    Icons.star_border,
-                    size: 25,
-                  ),
+        child: InkWell(
+          onTap: () async {
+            final navigator = Navigator.of(context);
+            navigator.push(
+              MaterialPageRoute(
+                builder: (_) => TaskDetailsPage(task: task),
+              ),
+            );
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
                   Text(
-                    task.dueDate,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  )
-                ])
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Text(task.content, style: Theme.of(context).textTheme.bodySmall!
-                // .copyWith(color: Colors.white),
-                ),
-            // may want to restructure to include the user below?
-            //   const SizedBox(
-            //     height: 7,
-            //   ),
-            //   Text(
-            //     task.user,
-            //     style: Theme.of(context).textTheme.bodySmall,
-            //   )
-          ],
+                    task.title,
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                        // color: Colors.white,
+                        color: Theme.of(context).colorScheme.onPrimary),
+                  ),
+                  Column(
+                    children: [
+                      const Icon(
+                        Icons.star_border,
+                        size: 25,
+                      ),
+                      Text(
+                        task.dueDate.toString(),
+                        style: Theme.of(context).textTheme.bodySmall,
+                      )
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(task.briefDescription,
+                  style: Theme.of(context).textTheme.bodySmall!),
+            ],
+          ),
         ),
       ),
     );

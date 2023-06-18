@@ -1,59 +1,65 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import '../../models/user.dart';
+import '../../models/task.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:NUSLiving/screens/home.dart';
+import 'package:NUSLiving/utilities/myFunctions.dart';
 
-class CreateAnAccountScreen extends StatefulWidget {
-  const CreateAnAccountScreen({super.key, required this.uid});
-
-  final String uid;
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key, required this.user});
+  final User user;
 
   @override
-  State<CreateAnAccountScreen> createState() {
-    return _CreateAnAccountScreen();
+  State<ProfileScreen> createState() {
+    return _ProfileScreen();
   }
 }
 
-class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
+class _ProfileScreen extends State<ProfileScreen> {
   final _formKey = GlobalKey<FormState>();
-  var _username = '';
-  var _telegramHandle = '';
-  var _yearOfStudy = 1;
-  var _house = '';
+  late String _username;
+  late String _telegramHandle;
+  late int _yearOfStudy;
+  late String _house;
 
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      var res = await http.post(
-        Uri.parse('http://10.0.2.2:3000/api/v1/user/signup'),
+      var _createdTasks = [];
+      var _appliedTasks = [];
+      var _favouriteTasks = [];
+      for (Task task in widget.user.createdTasks) {
+        _createdTasks.add(task.id);
+      }
+      for (Task task in widget.user.appliedTasks) {
+        _createdTasks.add(task.id);
+      }
+      for (Task task in widget.user.favouriteTasks) {
+        _favouriteTasks.add(task.id);
+      }
+      var scaffoldMessenger = ScaffoldMessenger.of(context);
+      var res = await http.patch(
+        Uri.parse('http://10.0.2.2:3000/api/v1/user/${widget.user.uid}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: json.encode({
           "username": _username,
-          "uid": widget.uid,
+          "uid": widget.user.uid,
           "telegramHandle": _telegramHandle,
           "year": _yearOfStudy,
           "house": _house,
+          "createdTasks": _createdTasks,
+          "appliedTasks": _appliedTasks,
+          "favouriteTasks": _favouriteTasks,
         }),
       );
-
-      if (res.statusCode == 201) {
-        if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) =>
-                  Home(myTasks: const [], uid: widget.uid),
-            ),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Sucessfully submitted')),
-          );
-        }
-        _formKey.currentState!.reset();
+      if (res.statusCode == 200) {
+        scaffoldMessenger.showSnackBar(const SnackBar(
+          content: Text('Successfully updated profile'),
+        ));
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -119,6 +125,7 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
                     ),
                     TextFormField(
                       maxLength: 20,
+                      initialValue: widget.user.username,
                       decoration: const InputDecoration(
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(8),
@@ -153,6 +160,7 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
                       height: 10,
                     ),
                     TextFormField(
+                      initialValue: widget.user.telegramHandle,
                       decoration: const InputDecoration(
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(8),
@@ -194,6 +202,7 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
                                 height: 10,
                               ),
                               DropdownButtonFormField(
+                                value: widget.user.year,
                                 padding: const EdgeInsets.all(5),
                                 items: [
                                   for (int i = 1; i < 5; i++)
@@ -204,7 +213,7 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
                                       ),
                                     ),
                                 ],
-                                onChanged: (value) {},
+                                onChanged: (val) {},
                                 onSaved: (value) {
                                   _yearOfStudy = value!;
                                 },
@@ -230,6 +239,7 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
                                 height: 10,
                               ),
                               DropdownButtonFormField(
+                                value: widget.user.house,
                                 padding: const EdgeInsets.all(5),
                                 items: [
                                   for (final house in [
@@ -285,7 +295,7 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
                             foregroundColor: Colors.white,
                           ),
                           onPressed: (submitForm),
-                          child: const Text('Submit'),
+                          child: const Text('Save changes'),
                         ),
                       ],
                     ),

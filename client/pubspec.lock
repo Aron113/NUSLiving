@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  badges:
+    dependency: transitive
+    description:
+      name: badges
+      sha256: "727580d938b7a1ff47ea42df730d581415606b4224cfa708671c10287f8d3fe6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -65,6 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  easy_sidemenu:
+    dependency: "direct main"
+    description:
+      name: easy_sidemenu
+      sha256: "9ce07d26f4c8f85f15f4ec6151dd38f41921bf0032e5f996048a3b0f4678ed5b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.1+1"
   email_validator:
     dependency: "direct main"
     description:
@@ -177,7 +193,7 @@ packages:
     source: hosted
     version: "5.0.0"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: "4c3f04bfb64d3efd508d06b41b825542f08122d30bda4933fb95c069d22a4fa3"
@@ -192,6 +208,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   js:
     dependency: transitive
     description:
@@ -316,10 +340,10 @@ packages:
     dependency: "direct main"
     description:
       name: sidebarx
-      sha256: "26a8392ceddb659c8f2c688beba6c04bcbf520b4d5decb143c5fd7253653081f"
+      sha256: "871bc09510a6e37e0bb554186f3a2f0082d0aa7ad01c93f93448a025416f6e31"
       url: "https://pub.dev"
     source: hosted
-    version: "0.15.0"
+    version: "0.16.0"
   sky_engine:
     dependency: transitive
     description: flutter

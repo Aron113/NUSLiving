@@ -20,7 +20,7 @@ app.get('/', (req,res) => {
 });
 
 //ROUTES
-// app.use('/api/v1/tasks', taskRouter);
+app.use('/api/v1/tasks', taskRouter);
 app.use('/api/v1/user', userRouter);
 
 //For all unspecified routes, return 404

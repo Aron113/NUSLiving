@@ -1,46 +1,53 @@
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import '../../models/user.dart';
+import '../../models/task.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:NUSLiving/screens/home.dart';
+import 'package:NUSLiving/utilities/myFunctions.dart';
+import 'package:intl/intl.dart';
 
-class CreateAnAccountScreen extends StatefulWidget {
-  const CreateAnAccountScreen({super.key, required this.uid});
+final formatter = DateFormat.yMd();
+
+class CreateTaskScreen extends StatefulWidget {
+  const CreateTaskScreen({super.key, required this.uid});
 
   final String uid;
 
   @override
-  State<CreateAnAccountScreen> createState() {
-    return _CreateAnAccountScreen();
+  State<CreateTaskScreen> createState() {
+    return _CreateTaskScreen();
   }
 }
 
-class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
+class _CreateTaskScreen extends State<CreateTaskScreen> {
   final _formKey = GlobalKey<FormState>();
-  var _username = '';
-  var _telegramHandle = '';
-  var _yearOfStudy = 1;
-  var _house = '';
+  var _title = '';
+  var _briefDescription = '';
+  var _dueDate = '';
+  var _fullDescription = '';
+  var _requirements = '';
 
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      var user = await MyFunctions.getUser(widget.uid);
       var res = await http.post(
-        Uri.parse('http://10.0.2.2:3000/api/v1/user/signup'),
+        Uri.parse('http://10.0.2.2:3000/api/v1/tasks/create/${widget.uid}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: json.encode({
-          "username": _username,
-          "uid": widget.uid,
-          "telegramHandle": _telegramHandle,
-          "year": _yearOfStudy,
-          "house": _house,
+          "title": _title,
+          "author": [user.id],
+          "briefDescription": _briefDescription,
+          "dueDate": _dueDate,
+          "fullDescription": _fullDescription,
+          "requirements": _requirements,
         }),
       );
 
-      if (res.statusCode == 201) {
+      if (res.statusCode == 200) {
         if (mounted) {
           Navigator.pushReplacement(
             context,
@@ -61,6 +68,18 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
           );
         }
       }
+    }
+  }
+
+  void presentDatePicker() async {
+    final now = DateTime.now();
+    final lastDate = DateTime(now.year + 1, now.month, now.day);
+    final pickedDate = await showDatePicker(
+        context: context, initialDate: now, firstDate: now, lastDate: lastDate);
+    if (pickedDate != null) {
+      setState(() {
+        _dueDate = formatter.format(pickedDate);
+      });
     }
   }
 
@@ -108,7 +127,7 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Username',
+                      'Title',
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -134,16 +153,16 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
                             value.isEmpty ||
                             value.trim().length <= 4 ||
                             value.trim().length > 50) {
-                          return 'Must be between 5 and 20 characters.';
+                          return 'Must be between 5 and 30 characters.';
                         }
                         return null;
                       },
                       onSaved: (value) {
-                        _username = value!;
+                        _title = value!;
                       },
                     ),
                     Text(
-                      'Telegram Handle',
+                      'Brief Description',
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
@@ -153,6 +172,8 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
                       height: 10,
                     ),
                     TextFormField(
+                      maxLines: 3,
+                      maxLength: 120,
                       decoration: const InputDecoration(
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(8),
@@ -166,115 +187,99 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
                         if (value == null ||
                             value.isEmpty ||
                             value.trim().length <= 1 ||
-                            value.trim().length > 50) {
-                          return 'Must be between 1 and 50 characters.';
+                            value.trim().length > 120) {
+                          return 'Must be between 1 and 120 characters.';
                         }
                         return null;
                       },
                       onSaved: (value) {
-                        _telegramHandle = value!;
+                        _briefDescription = value!;
+                      },
+                    ),
+                    const SizedBox(height: 30),
+                    Text(
+                      'Full Description',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      maxLines: 6,
+                      maxLength: 1000,
+                      decoration: const InputDecoration(
+                        isDense: true, // Added this
+                        contentPadding: EdgeInsets.all(8),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.trim().length <= 1 ||
+                            value.trim().length > 1000) {
+                          return 'Must be between 1 and 1000 characters.';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _fullDescription = value!;
+                      },
+                    ),
+                    Text(
+                      'Requirements',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      maxLines: 5,
+                      maxLength: 300,
+                      decoration: const InputDecoration(
+                        isDense: true, // Added this
+                        contentPadding: EdgeInsets.all(8),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.trim().length <= 1 ||
+                            value.trim().length > 300) {
+                          return 'Must be between 1 and 300 characters.';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _requirements = value!;
                       },
                     ),
                     Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              Text(
-                                'Year of Study',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              DropdownButtonFormField(
-                                padding: const EdgeInsets.all(5),
-                                items: [
-                                  for (int i = 1; i < 5; i++)
-                                    DropdownMenuItem(
-                                      value: i,
-                                      child: Text(
-                                        '$i',
-                                      ),
-                                    ),
-                                ],
-                                onChanged: (value) {},
-                                onSaved: (value) {
-                                  _yearOfStudy = value!;
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 40),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              Text(
-                                'House',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              DropdownButtonFormField(
-                                padding: const EdgeInsets.all(5),
-                                items: [
-                                  for (final house in [
-                                    "aquila",
-                                    "noctua",
-                                    "ursa",
-                                    "leo",
-                                    "draco"
-                                  ])
-                                    DropdownMenuItem(
-                                      value: house,
-                                      child: Row(
-                                        children: [
-                                          const SizedBox(width: 5),
-                                          Text(house),
-                                        ],
-                                      ),
-                                    ),
-                                ],
-                                onChanged: (value) {},
-                                onSaved: (value) {
-                                  _house = value!;
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.onPrimary,
-                            foregroundColor: Colors.white,
-                          ),
-                          onPressed: () {
-                            // Validate returns true if the form is valid, or false otherwise.
-                            _formKey.currentState!.reset();
-                          },
-                          child: const Text('Reset'),
-                        ),
+                        _dueDate == ''
+                            ? const Text('Select Date')
+                            : Text(_dueDate),
+                        IconButton(
+                            icon: const Icon(Icons.calendar_month),
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor:
+                                  Theme.of(context).colorScheme.onSecondary,
+                            ),
+                            onPressed: presentDatePicker),
                         const SizedBox(
                           width: 30,
                         ),

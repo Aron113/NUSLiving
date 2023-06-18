@@ -40,6 +40,24 @@ const userSchema = new mongoose.Schema(
                 message : "A valid house must be provided"
             }, 
         },
+        createdTasks : [
+            {
+                type : mongoose.Schema.Types.ObjectId,
+                ref : 'Task'
+            }
+        ],
+        appliedTasks : [
+            {
+                type : mongoose.Schema.Types.ObjectId,
+                ref : 'Task'
+            }
+        ],
+        favouriteTasks : [
+            {
+                type : mongoose.Schema.Types.ObjectId,
+                ref : 'Task'
+            }
+        ]
     });
 
 // document middleware formats the telegram handle of a user to the right format 
@@ -53,4 +71,3 @@ userSchema.pre('save', function(next){
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
-// module.exports.userSchema = userSchema;

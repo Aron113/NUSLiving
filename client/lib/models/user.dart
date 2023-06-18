@@ -1,26 +1,50 @@
 import 'package:NUSLiving/models/task.dart';
 
-enum House {
-  aquila,
-  noctua,
-  draco,
-  leo,
-  ursa,
-}
-
 class User {
+  final String id;
   final String username;
-  final String password;
+  final String uid;
   final String telegramHandle;
   final int year;
-  final House house;
-  List<Task> userTasks;
+  final String house;
+  List<Task> createdTasks;
+  List<Task> appliedTasks;
+  List<Task> favouriteTasks;
 
   User(
-      {required this.username,
-      required this.password,
+      {required this.id,
+      required this.username,
+      required this.uid,
       required this.telegramHandle,
       required this.year,
-      required this.house})
-      : userTasks = List.empty();
+      required this.house,
+      required this.createdTasks,
+      required this.appliedTasks,
+      required this.favouriteTasks});
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    List<Task> _createdTasks = [];
+    List<Task> _appliedTasks = [];
+    List<Task> _favouriteTasks = [];
+    for (dynamic task in json['createdTasks']) {
+      _createdTasks.add(Task.fromJson(task));
+    }
+    for (dynamic task in json['appliedTasks']) {
+      _appliedTasks.add(Task.fromJson(task));
+    }
+    for (dynamic task in json['favouriteTasks']) {
+      _favouriteTasks.add(Task.fromJson(task));
+    }
+    return User(
+      id: json['_id'],
+      username: json['username'],
+      uid: json['uid'],
+      telegramHandle: json['telegramHandle'],
+      year: json['year'],
+      house: json['house'],
+      createdTasks: _createdTasks,
+      appliedTasks: _appliedTasks,
+      favouriteTasks: _favouriteTasks,
+    );
+  }
 }

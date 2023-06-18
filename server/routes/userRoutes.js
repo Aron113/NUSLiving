@@ -9,10 +9,15 @@ once they have managed to sign in using firebase auth*/
 router.route('/signup')
     .post(userController.createUser);
 
-router.route('/:id')
+router.route('/favourites/:uid/:taskId/:updateType')
+    .patch(userController.updateFavouriteTask);
+
+router.route('/applied/:uid/:taskId/:updateType')
+    .patch(userController.updateAppliedTask);
+
+router.route('/:uid')
     .get(userController.getUser)
     .patch(userController.updateUser)
     .delete(userController.deleteUser);
-
 
 module.exports = router; 

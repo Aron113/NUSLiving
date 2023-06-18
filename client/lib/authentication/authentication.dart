@@ -1,11 +1,19 @@
 import 'package:NUSLiving/authentication/authentication_exceptions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+class AuthResult {
+  AuthResult({required this.status, required this.uid});
+
+  AuthStatus status;
+  String uid;
+}
+
 class AuthenticationService {
   final auth = FirebaseAuth.instance;
+  static late AuthResult result;
   static late AuthStatus _status;
 
-  Future<AuthStatus> login({
+  Future<AuthResult> login({
     required String email,
     required String password,
   }) async {
@@ -14,14 +22,16 @@ class AuthenticationService {
           email: email, password: password);
       if (loginUser.user!.emailVerified) {
         //Check that email address is verified
-        _status = AuthStatus.successful;
+        result =
+            AuthResult(status: AuthStatus.successful, uid: loginUser.user!.uid);
       } else {
-        _status = AuthStatus.emailNotVerified;
+        result = AuthResult(status: AuthStatus.emailNotVerified, uid: '');
       }
     } on FirebaseAuthException catch (e) {
-      _status = AuthExceptionHandler.handleAuthException(e);
+      AuthStatus exceptionStatus = AuthExceptionHandler.handleAuthException(e);
+      result = AuthResult(status: exceptionStatus, uid: '');
     }
-    return _status;
+    return result;
   }
 
   Future<void> resendVerificationEmail({
@@ -33,7 +43,7 @@ class AuthenticationService {
     await loginUser.user!.sendEmailVerification();
   }
 
-  Future<AuthStatus> createAccount({
+  Future<AuthResult> createAccount({
     required String email,
     required String password,
     required String name,
@@ -49,11 +59,13 @@ class AuthenticationService {
 
       newUser.user!.sendEmailVerification();
 
-      _status = AuthStatus.successful;
+      result =
+          AuthResult(status: AuthStatus.successful, uid: newUser.user!.uid);
     } on FirebaseAuthException catch (e) {
-      _status = AuthExceptionHandler.handleAuthException(e);
+      AuthStatus ExceptionStatus = AuthExceptionHandler.handleAuthException(e);
+      result = AuthResult(status: ExceptionStatus, uid: '');
     }
-    return _status;
+    return result;
   }
 
   Future<AuthStatus> resetPassword({required String email}) async {
