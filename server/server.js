@@ -11,7 +11,7 @@ mongoose.connect(process.env.DATABASE, {
 });
 
 
-const port = process.env.PORT || 3000;
+const port = https://nus-living.vercel.app/;
 app.listen(port, () => {
     console.log(`App running on port ${port}`);
 });
