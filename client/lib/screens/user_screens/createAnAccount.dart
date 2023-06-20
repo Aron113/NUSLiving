@@ -72,7 +72,7 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
         title: Row(
           children: [
             Image.asset(
-              "/Users/zhengyu/Desktop/NUSLiving/client/assets/images/nus_logo_full-vertical.png",
+              "/Users/assets/images/nus_logo_full-vertical.png/Desktop/NUSLiving/client/assets/images/nus_logo_full-vertical.png",
               width: 35,
             ),
             const SizedBox(width: 20),
