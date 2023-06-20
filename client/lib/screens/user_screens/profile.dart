@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import '../../models/user.dart';
 import '../../models/task.dart';
@@ -41,7 +41,7 @@ class _ProfileScreen extends State<ProfileScreen> {
       }
       var scaffoldMessenger = ScaffoldMessenger.of(context);
       var res = await http.patch(
-        Uri.parse('http://10.0.2.2:3000/api/v1/user/${widget.user.uid}'),
+        Uri.parse('https://nus-living.vercel.app/api/v1/user/${widget.user.uid}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -78,7 +78,7 @@ class _ProfileScreen extends State<ProfileScreen> {
         title: Row(
           children: [
             Image.asset(
-              "/Users/assets/images/nus_logo_full-vertical.png/Desktop/NUSLiving/client/assets/images/nus_logo_full-vertical.png",
+              "assets/images/nus_logo_full-vertical.png",
               width: 35,
             ),
             const SizedBox(width: 20),
