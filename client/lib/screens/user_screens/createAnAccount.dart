@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import '../../models/user.dart';
 import 'dart:convert';
@@ -27,7 +26,7 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       var res = await http.post(
-        Uri.parse('http://10.0.2.2:3000/api/v1/user/signup'),
+        Uri.parse('https://nus-living.vercel.app/api/v1/user/signup'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -72,7 +71,7 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
         title: Row(
           children: [
             Image.asset(
-              "/Users/assets/images/nus_logo_full-vertical.png/Desktop/NUSLiving/client/assets/images/nus_logo_full-vertical.png",
+              "assets/images/nus_logo_full-vertical.png",
               width: 35,
             ),
             const SizedBox(width: 20),

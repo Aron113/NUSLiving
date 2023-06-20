@@ -70,8 +70,7 @@ flutter:
   assets:
      - assets/images/logo.png
      - assets/images/greentick.gif
-     - assets/images/
-     - /Users/assets/images/nus_logo_full-vertical.png/Desktop/NUSLiving/client/assets/images/nus_logo_full-vertical.png
+     - assets/images/nus_logo_full-vertical.png
   #- images/a_dot_ham.jpeg
 
 

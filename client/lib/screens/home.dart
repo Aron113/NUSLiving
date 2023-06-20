@@ -30,7 +30,7 @@ class HomeScreen extends State<Home> {
         title: Row(
           children: [
             Image.asset(
-              "/Users/assets/images/nus_logo_full-vertical.png/Desktop/NUSLiving/client/assets/images/nus_logo_full-vertical.png",
+              "assets/images/nus_logo_full-vertical.png",
               width: 35,
             ),
             const SizedBox(width: 20),
