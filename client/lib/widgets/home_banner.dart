@@ -15,7 +15,7 @@ class HomeBanner extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Welcome back Zheng Yu!',
+            'Welcome back!',
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
