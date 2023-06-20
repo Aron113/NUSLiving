@@ -4,7 +4,7 @@ const app = require('./app');
 
 dotenv.config({path : './config.env'});
 
-mongoose.connect(process.env.DATABASE, {
+mongoose.connect("mongodb+srv://zy:MA1lZ5ZPpQzWBWuu@cluster0.jbhnvrx.mongodb.net/NUSliving", {
     useNewUrlParser: true,
 }).then( con => {
     console.log('DB up and running')
