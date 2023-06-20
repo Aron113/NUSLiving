@@ -6,8 +6,9 @@ const taskRouter = require('./routes/taskRoutes');
 const bodyParser = require("body-parser");
 const cors = require('cors');
 
-
 const app = express();
+
+//this enables all CORS requests, To be configured
 app.use(cors());
 
 // parse application/x-www-form-urlencoded
