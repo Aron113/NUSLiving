@@ -4,8 +4,12 @@ const ErrorHandler = require("./controllers/ErrorController");
 const userRouter = require('./routes/userRoutes');
 const taskRouter = require('./routes/taskRoutes');
 const bodyParser = require("body-parser");
+const cors = require('cors');
+
 
 const app = express();
+app.use(cors());
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
