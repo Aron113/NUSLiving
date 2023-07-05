@@ -220,13 +220,13 @@ class SignUpScreen extends State<SignUp> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: const Color.fromARGB(255, 00, 130, 128),
         ),
         onPressed: register,
         child: const Text(
           'REGISTER',
           style: TextStyle(
-            color: Color(0xFF527DAA),
+            color: Colors.white,
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -308,19 +308,7 @@ class SignUpScreen extends State<SignUp> {
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
-                ),
+                decoration: const BoxDecoration(color: Colors.white),
               ),
               SizedBox(
                 height: double.infinity,
@@ -333,19 +321,15 @@ class SignUpScreen extends State<SignUp> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Image(
-                        image: AssetImage('assets/images/logo.png'),
-                        height: 50.00,
-                      ),
                       const Text('NUSLiving',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 204, 227, 236),
+                            color: Color.fromARGB(255, 00, 130, 128),
                             fontFamily: 'OpenSans',
                             fontSize: 32.0,
                             fontWeight: FontWeight.normal,
                           )),
                       const SizedBox(
-                        height: 30.0,
+                        height: 10.0,
                       ),
                       const Text(
                         'Sign Up',
@@ -373,6 +357,9 @@ class SignUpScreen extends State<SignUp> {
                               height: 10.0,
                             ),
                             _repeatpassword(),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             _buildRegisterBtn(),
                           ])),
                       _buildSignInBtn()

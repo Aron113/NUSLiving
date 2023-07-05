@@ -6,13 +6,13 @@ final kHintTextStyle = TextStyle(
 );
 
 final kLabelStyle = TextStyle(
-  color: Colors.white,
+  color: Color.fromARGB(255, 54, 117, 136),
   fontWeight: FontWeight.bold,
   fontFamily: 'OpenSans',
 );
 
 final kBoxDecorationStyle = BoxDecoration(
-  color: Color(0xFF6CA8F1),
+  color: Color.fromARGB(255, 54, 117, 136),
   borderRadius: BorderRadius.circular(10.0),
   boxShadow: [
     BoxShadow(

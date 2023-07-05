@@ -87,18 +87,18 @@ class ForgotPasswordScreen extends State<ForgotPassword> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: const Color.fromARGB(255, 00, 130, 128),
         ),
         onPressed: () => {
           print('Reset Password Button Pressed'),
           resetPassword(),
         },
-        child: Text(
+        child: const Text(
           'RESET PASSWORD',
           style: TextStyle(
-            color: Color(0xFF527DAA),
+            color: Colors.white,
             letterSpacing: 1.5,
-            fontSize: 18.0,
+            fontSize: 15.0,
             fontWeight: FontWeight.bold,
             fontFamily: 'OpenSans',
           ),
@@ -176,38 +176,24 @@ class ForgotPasswordScreen extends State<ForgotPassword> {
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
                 ),
               ),
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 40.0,
-                    vertical: 90.0,
+                    vertical: 100.0,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Image(
-                        image: AssetImage('assets/images/logo.png'),
-                        height: 50.00,
-                      ),
-                      Text('NUSLiving',
+                      const Text('NUSLiving',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 204, 227, 236),
+                            color: Color.fromARGB(255, 00, 130, 128),
                             fontFamily: 'OpenSans',
                             fontSize: 32.0,
                             fontWeight: FontWeight.normal,
@@ -215,10 +201,10 @@ class ForgotPasswordScreen extends State<ForgotPassword> {
                       Form(
                         key: _Form,
                         child: Column(children: <Widget>[
-                          SizedBox(
-                            height: 30.0,
+                          const SizedBox(
+                            height: 20.0,
                           ),
-                          Text(
+                          const Text(
                             'Forgot Your Password?',
                             style: TextStyle(
                               color: Colors.white,
@@ -227,37 +213,37 @@ class ForgotPasswordScreen extends State<ForgotPassword> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 5.0),
-                          Text(
+                          const SizedBox(height: 5.0),
+                          const Text(
                             'Enter your email address below to reset your password',
                             style: TextStyle(
-                              color: Color.fromARGB(255, 233, 233, 233),
+                              color: Color.fromARGB(255, 00, 130, 128),
                               fontFamily: 'OpenSans',
                               fontSize: 11.0,
                               fontWeight: FontWeight.normal,
                             ),
                           ),
-                          SizedBox(height: 15.0),
+                          const SizedBox(height: 15.0),
                           _email(),
                           _resetpasswordbutton(),
                         ]),
                       ),
-                      Container(
+                      SizedBox(
                         height: 100,
                         child: Visibility(
+                          visible: _passwordResetEmailNotifVisibility,
                           child: Text(
                               'An email has been sent to ${_validEmailText} with instructions for resetting your password.',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color.fromARGB(255, 221, 221, 221),
                                 fontFamily: 'OpenSans',
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.normal,
                               )),
-                          visible: _passwordResetEmailNotifVisibility,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 155.0,
                       ),
                       _backToLoginBtn(),
