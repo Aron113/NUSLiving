@@ -154,13 +154,13 @@ class LoginScreen extends State<Login> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: const Color.fromARGB(255, 00, 130, 128),
         ),
         onPressed: () => login(),
         child: const Text(
           'LOGIN',
           style: TextStyle(
-            color: Color(0xFF527DAA),
+            color: Colors.white,
             letterSpacing: 1.5,
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -202,7 +202,6 @@ class LoginScreen extends State<Login> {
       } else {
         //Login successful, go to Home page
         bool userPresent = await MyFunctions.getUserPresent(authResult.uid);
-        print(userPresent);
         if (userPresent) {
           var tasks = await MyFunctions.getUserTasks(authResult.uid);
           if (!mounted) return;
@@ -233,25 +232,24 @@ class LoginScreen extends State<Login> {
   Widget _buildSignupBtn() {
     return GestureDetector(
       onTap: () => {
-        print('Sign Up Button Pressed'),
         signup(),
       },
       child: RichText(
         text: const TextSpan(
           children: [
             TextSpan(
-              text: 'Don\'t have an Account? ',
+              text: 'Don\'t have an Account?  ',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
+                color: Colors.black,
+                fontSize: 14.0,
                 fontWeight: FontWeight.w400,
               ),
             ),
             TextSpan(
               text: 'Sign Up',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
+                color: Colors.black,
+                fontSize: 14.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -278,21 +276,9 @@ class LoginScreen extends State<Login> {
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
-                ),
+                decoration: const BoxDecoration(color: Colors.white),
               ),
-              Container(
+              SizedBox(
                 height: double.infinity,
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -302,64 +288,65 @@ class LoginScreen extends State<Login> {
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      const Image(
-                        image: AssetImage('assets/images/logo.png'),
-                        height: 50.00,
-                      ),
                       const Text('NUSLiving',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 204, 227, 236),
+                            color: Color.fromARGB(255, 00, 130, 128),
                             fontFamily: 'OpenSans',
                             fontSize: 32.0,
                             fontWeight: FontWeight.normal,
                           )),
                       Form(
                         key: _form,
-                        child: Column(children: <Widget>[
-                          const SizedBox(
-                            height: 30.0,
-                          ),
-                          const Text(
-                            'Sign In',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'OpenSans',
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.bold,
+                        child: Column(
+                          children: <Widget>[
+                            const SizedBox(
+                              height: 30.0,
                             ),
-                          ),
-                          const SizedBox(height: 1.0),
-                          _email(),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          _password(),
-                          const SizedBox(
-                            height: 1.0,
-                          ),
-                          _buildForgotPasswordBtn(),
-                          _buildLoginBtn(),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          SizedBox(
-                            height: 80,
-                            child: Visibility(
-                              visible: _notifTextVisibility,
-                              child: Text(
-                                _notifText,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: Color.fromARGB(255, 221, 221, 221),
-                                  fontFamily: 'OpenSans',
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                            const Text(
+                              'Sign In',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 54, 117, 136),
+                                fontFamily: 'OpenSans',
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-                        ]),
+                            const SizedBox(height: 1.0),
+                            _email(),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            _password(),
+                            const SizedBox(
+                              height: 1.0,
+                            ),
+                            _buildForgotPasswordBtn(),
+                            _buildLoginBtn(),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            _notifTextVisibility
+                                ? SizedBox(
+                                    height: 100,
+                                    child: Visibility(
+                                      visible: _notifTextVisibility,
+                                      child: Text(
+                                        _notifText,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'OpenSans',
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : const SizedBox(height: 100)
+                          ],
+                        ),
                       ),
                       const SizedBox(
                         height: 6.0,
