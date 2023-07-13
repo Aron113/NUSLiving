@@ -57,7 +57,16 @@ const userSchema = new mongoose.Schema(
                 type : mongoose.Schema.Types.ObjectId,
                 ref : 'Task'
             }
-        ]
+        ],
+        bio : {
+            type : String, 
+            trim : true, 
+        },
+        interests : [{
+            type : String, 
+            default :'',
+            trim : true, 
+        }]
     });
 
 // document middleware formats the telegram handle of a user to the right format 

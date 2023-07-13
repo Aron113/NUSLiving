@@ -15,9 +15,12 @@ router.route('/favourites/:uid/:taskId/:updateType')
 router.route('/applied/:uid/:taskId/:updateType')
     .patch(userController.updateAppliedTask);
 
-router.route('/:uid')
-    .get(userController.getUser)
+router.route('/uid/:uid')
+    .get(userController.getUserByUid)
     .patch(userController.updateUser)
     .delete(userController.deleteUser);
+
+router.route('/id/:id')
+    .get(userController.getUserById)
 
 module.exports = router; 

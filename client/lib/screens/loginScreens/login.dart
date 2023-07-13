@@ -210,7 +210,7 @@ class LoginScreen extends State<Login> {
             MaterialPageRoute(
               builder: (context) => Home(
                 uid: authResult.uid,
-                myTasks: tasks,
+                tasks: tasks,
               ),
             ),
           );
