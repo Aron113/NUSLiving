@@ -4,6 +4,7 @@ import '../../models/user.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:NUSLiving/screens/home.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class CreateAnAccountScreen extends StatefulWidget {
   const CreateAnAccountScreen({super.key, required this.uid});
@@ -22,6 +23,34 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
   var _telegramHandle = '';
   var _yearOfStudy = 1;
   var _house = '';
+  var _bio = '';
+  var _interests = [];
+  final List<String> _allInterests = [
+    "Floorball",
+    "Volleyball",
+    "Football",
+    "Ulti",
+    "Basketball",
+    "Dance",
+    "Coffee",
+    "Cooking",
+    "Band",
+    "Art",
+    "Theatre"
+  ];
+  var _remainingInterests = [
+    "Floorball",
+    "Volleyball",
+    "Football",
+    "Ulti",
+    "Basketball",
+    "Dance",
+    "Coffee",
+    "Cooking",
+    "Band",
+    "Art",
+    "Theatre"
+  ];
 
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
@@ -37,6 +66,8 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
           "telegramHandle": _telegramHandle,
           "year": _yearOfStudy,
           "house": _house,
+          "bio": _bio,
+          "interests": _interests,
         }),
       );
 
@@ -46,7 +77,7 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
             context,
             MaterialPageRoute<void>(
               builder: (BuildContext context) =>
-                  Home(myTasks: const [], uid: widget.uid),
+                  Home(tasks: const [], uid: widget.uid),
             ),
           );
           ScaffoldMessenger.of(context).showSnackBar(
@@ -175,6 +206,40 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
                         _telegramHandle = value!;
                       },
                     ),
+                    Text(
+                      'Bio',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      minLines: 2,
+                      decoration: const InputDecoration(
+                        isDense: true, // Added this
+                        contentPadding: EdgeInsets.all(8),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.trim().length <= 1 ||
+                            value.trim().length > 200) {
+                          return 'Must be between 1 and 200 characters.';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _bio = value!;
+                      },
+                    ),
                     Row(
                       children: [
                         Expanded(
@@ -259,33 +324,266 @@ class _CreateAnAccountScreen extends State<CreateAnAccountScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 30),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.onPrimary,
-                            foregroundColor: Colors.white,
+                        Expanded(
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                'Year of Study',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              DropdownButtonFormField(
+                                padding: const EdgeInsets.all(5),
+                                items: [
+                                  for (int i = 1; i < 5; i++)
+                                    DropdownMenuItem(
+                                      value: i,
+                                      child: Text(
+                                        '$i',
+                                      ),
+                                    ),
+                                ],
+                                onChanged: (value) {},
+                                onSaved: (value) {
+                                  _yearOfStudy = value!;
+                                },
+                              ),
+                            ],
                           ),
-                          onPressed: () {
-                            // Validate returns true if the form is valid, or false otherwise.
-                            _formKey.currentState!.reset();
-                          },
-                          child: const Text('Reset'),
+                        ),
+                        const SizedBox(width: 40),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                'House',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              DropdownButtonFormField(
+                                padding: const EdgeInsets.all(5),
+                                items: [
+                                  for (final house in [
+                                    "aquila",
+                                    "noctua",
+                                    "ursa",
+                                    "leo",
+                                    "draco"
+                                  ])
+                                    DropdownMenuItem(
+                                      value: house,
+                                      child: Row(
+                                        children: [
+                                          const SizedBox(width: 5),
+                                          Text(house),
+                                        ],
+                                      ),
+                                    ),
+                                ],
+                                onChanged: (value) {},
+                                onSaved: (value) {
+                                  _house = value!;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                'Year of Study',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              DropdownButtonFormField(
+                                padding: const EdgeInsets.all(5),
+                                items: [
+                                  for (int i = 1; i < 5; i++)
+                                    DropdownMenuItem(
+                                      value: i,
+                                      child: Text(
+                                        '$i',
+                                      ),
+                                    ),
+                                ],
+                                onChanged: (value) {},
+                                onSaved: (value) {
+                                  _yearOfStudy = value!;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 40),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                'Interests',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Bio',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
-                          width: 30,
+                          height: 10,
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.onPrimary,
-                            foregroundColor: Colors.white,
+                        TextFormField(
+                          minLines: 2,
+                          maxLines: 3,
+                          decoration: const InputDecoration(
+                            isDense: true, // Added this
+                            contentPadding: EdgeInsets.all(8),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                            ),
                           ),
-                          onPressed: (submitForm),
-                          child: const Text('Submit'),
+                          validator: (value) {
+                            if (value == null ||
+                                value.isEmpty ||
+                                value.trim().length <= 1 ||
+                                value.trim().length > 200) {
+                              return 'Must be between 1 and 200 characters.';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _bio = value!;
+                          },
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          'Interests',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        MultiSelectChipDisplay(
+                          chipColor: Colors.green.withOpacity(0.45),
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: Colors.black),
+                          items: _interests
+                              .map((e) => MultiSelectItem(e, e))
+                              .toList(),
+                          onTap: (value) {
+                            setState(() {
+                              _interests.remove(value);
+                              _remainingInterests.add(value);
+                            });
+                          },
+                        ),
+                        MultiSelectChipDisplay(
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: Colors.black),
+                          items: _remainingInterests
+                              .map((e) => MultiSelectItem(e, e))
+                              .toList(),
+                          onTap: (value) {
+                            setState(() {
+                              _interests.add(value);
+                              _remainingInterests.remove(value);
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.onPrimary,
+                                foregroundColor: Colors.white,
+                              ),
+                              onPressed: () {
+                                // Validate returns true if the form is valid, or false otherwise.
+                                _formKey.currentState!.reset();
+                                setState(() {
+                                  _interests = [];
+                                  _remainingInterests = _allInterests;
+                                });
+                              },
+                              child: const Text('Reset'),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.onPrimary,
+                                foregroundColor: Colors.white,
+                              ),
+                              onPressed: (submitForm),
+                              child: const Text('Submit'),
+                            ),
+                          ],
                         ),
                       ],
                     ),

@@ -39,11 +39,6 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Login(),
-      // home: SignUp(),
-      // home: const Home(myTasks: [], uid: "EdQcNNdWrDaCCX0efSaIlTQfEsX2"),
-      // home: const CreateAnAccountScreen(uid: "zesty testy"),
-      // home: TaskDetailsPage(),
-      // home: const TasksPage(),
     );
   }
 }

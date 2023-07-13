@@ -202,7 +202,7 @@ class ForgotPasswordScreen extends State<ForgotPassword> {
                         key: _Form,
                         child: Column(children: <Widget>[
                           const SizedBox(
-                            height: 20.0,
+                            height: 0.0,
                           ),
                           const Text(
                             'Forgot Your Password?',

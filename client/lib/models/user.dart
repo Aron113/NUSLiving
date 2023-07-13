@@ -10,6 +10,8 @@ class User {
   List<Task> createdTasks;
   List<Task> appliedTasks;
   List<Task> favouriteTasks;
+  final String bio;
+  List<String> interests;
 
   User(
       {required this.id,
@@ -20,12 +22,15 @@ class User {
       required this.house,
       required this.createdTasks,
       required this.appliedTasks,
-      required this.favouriteTasks});
+      required this.favouriteTasks,
+      required this.bio,
+      required this.interests});
 
   factory User.fromJson(Map<String, dynamic> json) {
     List<Task> _createdTasks = [];
     List<Task> _appliedTasks = [];
     List<Task> _favouriteTasks = [];
+    List<String> _interests = [];
     for (dynamic task in json['createdTasks']) {
       _createdTasks.add(Task.fromJson(task));
     }
@@ -34,6 +39,9 @@ class User {
     }
     for (dynamic task in json['favouriteTasks']) {
       _favouriteTasks.add(Task.fromJson(task));
+    }
+    for (dynamic interest in json['interests']) {
+      _interests.add(interest.toString());
     }
     return User(
       id: json['_id'],
@@ -45,6 +53,8 @@ class User {
       createdTasks: _createdTasks,
       appliedTasks: _appliedTasks,
       favouriteTasks: _favouriteTasks,
+      bio: json['bio'],
+      interests: _interests,
     );
   }
 }

@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:NUSLiving/screens/home.dart';
 import 'package:NUSLiving/utilities/myFunctions.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, required this.user});
@@ -23,6 +24,31 @@ class _ProfileScreen extends State<ProfileScreen> {
   late String _telegramHandle;
   late int _yearOfStudy;
   late String _house;
+  late String _bio;
+  late List<String> _interests;
+  late List<String> _remainingInterests;
+  final List<String> _allInterests = [
+    "Floorball",
+    "Volleyball",
+    "Football",
+    "Ulti",
+    "Basketball",
+    "Dance",
+    "Coffee",
+    "Cooking",
+    "Band",
+    "Art",
+    "Theatre"
+  ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _interests = widget.user.interests;
+    _remainingInterests = _allInterests
+        .where((element) => !_interests.contains(element))
+        .toList();
+  }
 
   void submitForm() async {
     if (_formKey.currentState!.validate()) {
@@ -41,7 +67,7 @@ class _ProfileScreen extends State<ProfileScreen> {
       }
       var scaffoldMessenger = ScaffoldMessenger.of(context);
       var res = await http.patch(
-        Uri.parse('http://10.0.2.2:3000/api/v1/user/${widget.user.uid}'),
+        Uri.parse('http://10.0.2.2:3000/api/v1/user/uid/${widget.user.uid}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -54,6 +80,8 @@ class _ProfileScreen extends State<ProfileScreen> {
           "createdTasks": _createdTasks,
           "appliedTasks": _appliedTasks,
           "favouriteTasks": _favouriteTasks,
+          "bio": _bio,
+          "interests": _interests,
         }),
       );
       if (res.statusCode == 200) {
@@ -270,6 +298,92 @@ class _ProfileScreen extends State<ProfileScreen> {
                       ],
                     ),
                     const SizedBox(height: 30),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Bio',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          minLines: 2,
+                          maxLines: 3,
+                          initialValue: widget.user.bio,
+                          decoration: const InputDecoration(
+                            isDense: true, // Added this
+                            contentPadding: EdgeInsets.all(8),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8),
+                              ),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null ||
+                                value.isEmpty ||
+                                value.trim().length <= 1 ||
+                                value.trim().length > 200) {
+                              return 'Must be between 1 and 200 characters.';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _bio = value!;
+                          },
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Text(
+                          'Interests',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        MultiSelectChipDisplay(
+                          chipColor: Colors.green.withOpacity(0.45),
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: Colors.black),
+                          items: _interests
+                              .map((e) => MultiSelectItem(e, e))
+                              .toList(),
+                          onTap: (value) {
+                            setState(() {
+                              _interests.remove(value);
+                              _remainingInterests.add(value);
+                            });
+                          },
+                        ),
+                        MultiSelectChipDisplay(
+                          textStyle: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: Colors.black),
+                          items: _remainingInterests
+                              .map((e) => MultiSelectItem(e, e))
+                              .toList(),
+                          onTap: (value) {
+                            setState(() {
+                              _interests.add(value);
+                              _remainingInterests.remove(value);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

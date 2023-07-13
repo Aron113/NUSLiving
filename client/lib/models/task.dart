@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:NUSLiving/utilities/myFunctions.dart';
+import 'package:NUSLiving/models/user.dart';
 
 final formatter = DateFormat.yMd();
 
@@ -12,7 +14,7 @@ class Task {
   final String dueDate;
   final String fullDescription;
   final String requirements;
-  //final User[] applicants;
+  final List<String> applicants;
 
   const Task({
     required this.id,
@@ -22,9 +24,14 @@ class Task {
     required this.dueDate,
     required this.fullDescription,
     required this.requirements,
+    required this.applicants,
   });
 
   factory Task.fromJson(Map<String, dynamic> json) {
+    List<String> _applicants = [];
+    for (dynamic user in json['applicants']) {
+      _applicants.add(user);
+    }
     return Task(
       id: json['_id'],
       author: json['author'][0],
@@ -33,6 +40,7 @@ class Task {
       dueDate: formatter.format(DateTime.parse(json['dueDate'])),
       fullDescription: json['fullDescription'],
       requirements: json['requirements'],
+      applicants: _applicants,
     );
   }
 }

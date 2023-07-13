@@ -27,13 +27,10 @@ exports.createTask = catchAsync(async(req, res, next) => {
 });
 
 exports.getTask = catchAsync(async (req, res, next) => {
-    const Task = await Task.findById(req.params.id).populate('author');
-    console.log('getTask');
-  
+    const Task = await Task.findById(req.params.id).populate('author').populate('applicants');
     if (!Task) {
       return next(new AppError('No Task found with that ID', 404));
     }
-  
     res.status(200).json({
       status: 'success',
       data: {
@@ -43,7 +40,7 @@ exports.getTask = catchAsync(async (req, res, next) => {
   });
 
   exports.getAllTasks = catchAsync(async (req, res, next) => {
-    const features = new APIFeatures(Task.find(), req.query)
+    const features = new APIFeatures(Task.find().populate('applicants'), req.query)
       .filter()
       .sort()
       .limitFields()
@@ -61,29 +58,27 @@ exports.getTask = catchAsync(async (req, res, next) => {
   });
 
   exports.updateTask = catchAsync(async (req, res, next) => {
-    const Task = await Task.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true
-    });
-  
-    if (!Task) {
-      return next(new AppError('No tour found with that ID', 404));
+      const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+      }).populate('applicants');
+    if (!task) {
+      return next(new AppError('No task found with that ID', 404));
     }
-  
     res.status(200).json({
       status: 'success',
       data: {
-        tour
+        task
       }
     });
   });
 
   exports.deleteTask = catchAsync(async (req, res, next) => {
-    const Task = await Task.findByIdAndDelete(req.params.id);
-    
-    if (!Task) {
-        return next(new AppError('No tour found with that ID', 404));
+    const task = await Task.findByIdAndDelete(req.params.id);
+    if (!task) {
+        return next(new AppError('No task found with that ID', 404));
     }
+    console.log(task);
     res.status(204).json({
         status: 'success',
         data: null

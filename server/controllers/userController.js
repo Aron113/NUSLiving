@@ -14,9 +14,21 @@ exports.createUser = catchAsync(async(req, res, next) => {
     });
 });
 
-exports.getUser = catchAsync(async (req, res, next) => {
+exports.getUserByUid = catchAsync(async (req, res, next) => {
     const user = await User.findOne({uid : req.params.uid}).populate('createdTasks').populate('appliedTasks').populate('favouriteTasks');
-    console.log(user);
+    if (!user) {
+      return next(new AppError('No user found with that ID', 404));
+    }
+    res.status(200).json({
+      status: 'success',
+      data: {
+        user 
+      }
+    });
+  });
+
+  exports.getUserById = catchAsync(async (req, res, next) => {
+    const user = await User.findById(req.params.id).populate('createdTasks').populate('appliedTasks').populate('favouriteTasks');
     if (!user) {
       return next(new AppError('No user found with that ID', 404));
     }
@@ -30,9 +42,9 @@ exports.getUser = catchAsync(async (req, res, next) => {
 
   exports.updateUser = catchAsync(async (req, res, next) => {
     const user = await User.findOneAndUpdate({"uid" : req.params.uid}, req.body,{
-        new: true,
-        runValidators: true
-      }).populate('createdTasks').populate('appliedTasks').populate('favouriteTasks');
+      new: true,
+      runValidators: true
+    }).populate('createdTasks').populate('appliedTasks').populate('favouriteTasks');
     if (!user) {
       return next(new AppError('No user found with that UID', 404));
     }
@@ -65,7 +77,7 @@ exports.getUser = catchAsync(async (req, res, next) => {
     const updatedUser = await User.findOneAndUpdate({"uid" : req.params.uid}, user,{
       new: true,
       runValidators: true
-    }).populate('createdTasks').populate('appliedTasks').populate('favouriteTasks');
+    }).populate('favouriteTasks');
     if (!updatedUser) {
       return next(new AppError('No user or task found with that ID', 404));
     }

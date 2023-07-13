@@ -23,7 +23,7 @@ class NavDrawer extends StatelessWidget {
             title: const Text('Profile'),
             onTap: () async {
               final navigator = Navigator.of(context);
-              var user = await MyFunctions.getUser(uid);
+              var user = await MyFunctions.getUserByUid(uid);
               navigator.push(
                 MaterialPageRoute(
                   builder: (_) => ProfileScreen(
@@ -43,7 +43,7 @@ class NavDrawer extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (_) => Home(
                     uid: uid,
-                    myTasks: tasks,
+                    tasks: tasks,
                   ),
                 ),
               );
