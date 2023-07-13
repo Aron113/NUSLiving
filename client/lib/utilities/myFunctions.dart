@@ -60,7 +60,7 @@ class MyFunctions {
 
   static Future<List<Task>> getAllTasks() async {
     final response =
-        await http.get(Uri.parse('http://10.0.2.2:3000/api/v1/tasks'));
+        await http.get(Uri.parse('https://nus-living.vercel.app/api/v1/tasks'));
     if (response.statusCode == 200) {
       List<dynamic> jsonTasks = jsonDecode(response.body)["data"]["tasks"];
       List<Task> result = [];

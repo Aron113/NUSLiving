@@ -246,13 +246,13 @@ class SignUpScreen extends State<SignUp> {
         password: _passwordText.text,
         name: _nameText.text,
       );
-      if (status == AuthStatus.successful) {
+      if (status.status == AuthStatus.successful) {
         //pass variable of successful account creation and to login again, sth like 'Account creation successful'
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => VerifyEmail(emailtext: _emailText.text)));
-      } else if (status == AuthStatus.emailAlreadyExists) {
+      } else if (status.status == AuthStatus.emailAlreadyExists) {
         _statusNotifier = true;
       } else {
         //Error not due to email already existing

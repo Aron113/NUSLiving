@@ -33,7 +33,7 @@ class _CreateTaskScreen extends State<CreateTaskScreen> {
       _formKey.currentState!.save();
       var user = await MyFunctions.getUserByUid(widget.uid);
       var res = await http.post(
-        Uri.parse('http://10.0.2.2:3000/api/v1/tasks/create/${widget.uid}'),
+        Uri.parse('https://nus-living.vercel.app/api/v1/tasks/create/${widget.uid}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -91,7 +91,7 @@ class _CreateTaskScreen extends State<CreateTaskScreen> {
         title: Row(
           children: [
             Image.asset(
-              "/Users/zhengyu/Desktop/NUSLiving/client/assets/images/nus_logo_full-vertical.png",
+              "assets/images/nus_logo_full-vertical.png",
               width: 35,
             ),
             const SizedBox(width: 20),
