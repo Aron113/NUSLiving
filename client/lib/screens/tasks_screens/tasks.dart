@@ -3,7 +3,6 @@ import 'package:NUSLiving/screens/user_screens/createAnAccount.dart';
 import 'package:NUSLiving/widgets/task_item.dart';
 import 'package:flutter/material.dart';
 import 'package:NUSLiving/models/task.dart';
-import 'package:NUSLiving/widgets/task_item.dart';
 import 'package:NUSLiving/utilities/myFunctions.dart';
 
 class TasksScreen extends StatefulWidget {
@@ -36,6 +35,7 @@ class _TaskPageScreen extends State<TasksScreen> {
           for (Task task in tasks) {
             ids.add(task.id);
           }
+
           return Scaffold(
               appBar: AppBar(title: const Text('Tasks')),
               backgroundColor: Colors.white,

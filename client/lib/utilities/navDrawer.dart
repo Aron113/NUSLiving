@@ -4,6 +4,7 @@ import 'package:NUSLiving/screens/home.dart';
 import 'package:NUSLiving/screens/user_screens/profile.dart';
 import 'package:NUSLiving/models/task.dart';
 import 'package:NUSLiving/screens/tasks_screens/tasks.dart';
+import 'package:NUSLiving/screens/loginScreens/login.dart';
 
 class NavDrawer extends StatelessWidget {
   const NavDrawer({required this.uid, super.key});
@@ -61,15 +62,14 @@ class NavDrawer extends StatelessWidget {
               );
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.calendar_month),
-            title: const Text('Bookings'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
+
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text('Logout'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Login()))},
           ),
         ],
       ),

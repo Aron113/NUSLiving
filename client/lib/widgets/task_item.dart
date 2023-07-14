@@ -32,11 +32,12 @@ class _TaskItem extends State<TaskItem> {
     super.initState();
   }
 
+
   @override
   Widget build(context) {
     void addFavourite() async {
       var res = await http.patch(Uri.parse(
-          'http://10.0.2.2:3000/api/v1/user/favourites/${widget.uid}/${widget.task.id}/add'));
+          'https://nus-living.vercel.app/api/v1/user/favourites/${widget.uid}/${widget.task.id}/add'));
       if (res.statusCode == 200) {
         setState(() {
           isFavourite = !isFavourite;
@@ -52,7 +53,7 @@ class _TaskItem extends State<TaskItem> {
 
     void removeFavourite() async {
       var res = await http.patch(Uri.parse(
-          'http://10.0.2.2:3000/api/v1/user/favourites/${widget.uid}/${widget.task.id}/delete'));
+          'https://nus-living.vercel.app/api/v1/user/favourites/${widget.uid}/${widget.task.id}/delete'));
       if (res.statusCode == 200) {
         setState(() {
           isFavourite = !isFavourite;

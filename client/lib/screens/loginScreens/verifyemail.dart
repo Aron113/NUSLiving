@@ -24,7 +24,7 @@ class VerifyEmailScreen extends State<VerifyEmail> {
             TextSpan(
               text: 'Back to ',
               style: TextStyle(
-                color: Colors.white,
+                color: Color.fromARGB(255, 00, 130, 128),
                 fontSize: 18.0,
                 fontWeight: FontWeight.w400,
               ),
@@ -32,7 +32,7 @@ class VerifyEmailScreen extends State<VerifyEmail> {
             TextSpan(
               text: 'Login',
               style: TextStyle(
-                color: Colors.white,
+                color: Color.fromARGB(255, 00, 130, 128),
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
@@ -60,19 +60,7 @@ class VerifyEmailScreen extends State<VerifyEmail> {
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF73AEF5),
-                      Color(0xFF61A4F1),
-                      Color(0xFF478DE0),
-                      Color(0xFF398AE5),
-                    ],
-                    stops: [0.1, 0.4, 0.7, 0.9],
-                  ),
-                ),
+                decoration: const BoxDecoration(color: Colors.white),
               ),
               SizedBox(
                 height: double.infinity,
@@ -91,7 +79,7 @@ class VerifyEmailScreen extends State<VerifyEmail> {
                       ),
                       const Text('NUSLiving',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 204, 227, 236),
+                            color: Color.fromARGB(255, 00, 130, 128),
                             fontFamily: 'OpenSans',
                             fontSize: 32.0,
                             fontWeight: FontWeight.normal,
@@ -103,7 +91,7 @@ class VerifyEmailScreen extends State<VerifyEmail> {
                       const Text(
                         'Registration Successful',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 00, 130, 128),
                           fontFamily: 'OpenSans',
                           fontSize: 25.0,
                           fontWeight: FontWeight.bold,
@@ -114,7 +102,7 @@ class VerifyEmailScreen extends State<VerifyEmail> {
                           'Your account was successfully registered. We have sent an email to ${widget.emailtext} to verify your email address. After you have verified your email, simply login to begin using NUSLiving! ',
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                            color: Color.fromARGB(255, 233, 233, 233),
+                            color: Color.fromARGB(255, 00, 130, 128),
                             fontFamily: 'OpenSans',
                             fontSize: 15.0,
                             fontWeight: FontWeight.normal,
