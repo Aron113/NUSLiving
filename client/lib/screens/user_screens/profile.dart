@@ -67,7 +67,7 @@ class _ProfileScreen extends State<ProfileScreen> {
       }
       var scaffoldMessenger = ScaffoldMessenger.of(context);
       var res = await http.patch(
-        Uri.parse('http://10.0.2.2:3000/api/v1/user/uid/${widget.user.uid}'),
+        Uri.parse('https://nus-living.vercel.app/api/v1/user/uid/${widget.user.uid}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

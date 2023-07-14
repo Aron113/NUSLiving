@@ -52,7 +52,7 @@ class _EditTaskScren extends State<EditTaskScren> {
               onPressed: () async {
                 var response = await http.delete(
                   Uri.parse(
-                      'http://10.0.2.2:3000/api/v1/tasks/${widget.task.id}'),
+                      'https://nus-living.vercel.app/api/v1/tasks/${widget.task.id}'),
                 );
                 if (response.statusCode != 204) {
                   if (mounted) {
@@ -110,7 +110,7 @@ class _EditTaskScren extends State<EditTaskScren> {
       var scaffoldMessenger = ScaffoldMessenger.of(context);
       var user = await MyFunctions.getUserByUid(widget.uid);
       var res = await http.patch(
-        Uri.parse('http://10.0.2.2:3000/api/v1/tasks/${widget.task.id}'),
+        Uri.parse('https://nus-living.vercel.app/api/v1/tasks/${widget.task.id}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -168,7 +168,7 @@ class _EditTaskScren extends State<EditTaskScren> {
         title: Row(
           children: [
             Image.asset(
-              "/Users/zhengyu/Desktop/NUSLiving/client/assets/images/nus_logo_full-vertical.png",
+              "assets/images/nus_logo_full-vertical.png",
               width: 35,
             ),
             const SizedBox(width: 20),

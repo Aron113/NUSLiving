@@ -44,7 +44,7 @@ class _TaskDetailsPage extends State<TaskDetailsPage> {
   Widget build(context) {
     void addFavourite() async {
       var res = await http.patch(Uri.parse(
-          'http://10.0.2.2:3000/api/v1/user/favourites/${widget.uid}/${widget.task.id}/add'));
+          'https://nus-living.vercel.app/api/v1/user/favourites/${widget.uid}/${widget.task.id}/add'));
       if (res.statusCode == 200) {
         setState(() {
           isFavourite = true;
@@ -60,7 +60,7 @@ class _TaskDetailsPage extends State<TaskDetailsPage> {
 
     void removeFavourite() async {
       var res = await http.patch(Uri.parse(
-          'http://10.0.2.2:3000/api/v1/user/favourites/${widget.uid}/${widget.task.id}/delete'));
+          'https://nus-living.vercel.app/api/v1/user/favourites/${widget.uid}/${widget.task.id}/delete'));
       if (res.statusCode == 200) {
         setState(() {
           isFavourite = false;
@@ -76,7 +76,7 @@ class _TaskDetailsPage extends State<TaskDetailsPage> {
 
     void apply() async {
       var res = await http.patch(Uri.parse(
-          'http://10.0.2.2:3000/api/v1/user/applied/${widget.uid}/${widget.task.id}/add'));
+          'https://nus-living.vercel.app/api/v1/user/applied/${widget.uid}/${widget.task.id}/add'));
       if (res.statusCode == 200) {
         setState(() {
           isApplied = true;
@@ -92,7 +92,7 @@ class _TaskDetailsPage extends State<TaskDetailsPage> {
 
     void unapply() async {
       var res = await http.patch(Uri.parse(
-          'http://10.0.2.2:3000/api/v1/user/applied/${widget.uid}/${widget.task.id}/delete'));
+          'https://nus-living.vercel.app/api/v1/user/applied/${widget.uid}/${widget.task.id}/delete'));
       if (res.statusCode == 200) {
         setState(() {
           isApplied = false;
