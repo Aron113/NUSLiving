@@ -177,7 +177,7 @@ class _TaskDetailsPage extends State<TaskDetailsPage> {
           ],
         ),
       ),
-      body: Container(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [

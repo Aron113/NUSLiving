@@ -27,7 +27,7 @@ exports.createTask = catchAsync(async(req, res, next) => {
 });
 
 exports.getTask = catchAsync(async (req, res, next) => {
-    const Task = await Task.findById(req.params.id).populate('author').populate('applicants');
+    const Task = await Task.findById(req.params.id).populate('author');
     if (!Task) {
       return next(new AppError('No Task found with that ID', 404));
     }
@@ -40,7 +40,7 @@ exports.getTask = catchAsync(async (req, res, next) => {
   });
 
   exports.getAllTasks = catchAsync(async (req, res, next) => {
-    const features = new APIFeatures(Task.find().populate('applicants'), req.query)
+    const features = new APIFeatures(Task.find(), req.query)
       .filter()
       .sort()
       .limitFields()
@@ -61,7 +61,7 @@ exports.getTask = catchAsync(async (req, res, next) => {
       const task = await Task.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
-      }).populate('applicants');
+      });
     if (!task) {
       return next(new AppError('No task found with that ID', 404));
     }
