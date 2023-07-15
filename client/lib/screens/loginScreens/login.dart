@@ -266,7 +266,8 @@ class LoginScreen extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+    home: Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
@@ -360,6 +361,7 @@ class LoginScreen extends State<Login> {
           ),
         ),
       ),
+    ),
     );
   }
 }
