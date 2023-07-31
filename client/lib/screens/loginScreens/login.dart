@@ -291,7 +291,7 @@ class LoginScreen extends State<Login> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      const Text('NUSLiving',
+                      const Text('NusLiving',
                           style: TextStyle(
                             color: Color.fromARGB(255, 00, 130, 128),
                             fontFamily: 'OpenSans',
