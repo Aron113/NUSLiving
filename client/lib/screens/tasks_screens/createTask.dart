@@ -152,8 +152,8 @@ class _CreateTaskScreen extends State<CreateTaskScreen> {
                         if (value == null ||
                             value.isEmpty ||
                             value.trim().length <= 4 ||
-                            value.trim().length > 30) {
-                          return 'Must be between 5 and 30 characters.';
+                            value.trim().length > 20) {
+                          return 'Must be between 5 and 20 characters.';
                         }
                         return null;
                       },
