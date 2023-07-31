@@ -6,12 +6,15 @@ import 'package:NUSLiving/utilities/myFunctions.dart';
 
 //change to display my tasks
 class MyTasks extends StatefulWidget {
-  const MyTasks({super.key, required this.uid, required this.allTasks, required this.type});
+  const MyTasks(
+      {super.key,
+      required this.uid,
+      required this.allTasks,
+      required this.type});
 
   final List<Task> allTasks;
   final String uid;
   final String type;
-  
 
   @override
   State<MyTasks> createState() {
@@ -31,14 +34,14 @@ class _MyTasks extends State<MyTasks> {
   @override
   Widget build(context) {
     return FutureBuilder(
-      future: _favourites,
-      builder: (context, AsyncSnapshot<List<Task>> snapshot) {
-        if (snapshot.hasData) {
-          var tasks = snapshot.data!.toList();
-          var ids = [];
-          for (Task task in tasks) {
-            ids.add(task.id);
-          }
+        future: _favourites,
+        builder: (context, AsyncSnapshot<List<Task>> snapshot) {
+          if (snapshot.hasData) {
+            var tasks = snapshot.data!.toList();
+            var ids = [];
+            for (Task task in tasks) {
+              ids.add(task.id);
+            }
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
               child: Column(
@@ -51,14 +54,19 @@ class _MyTasks extends State<MyTasks> {
                         ),
                   ),
                   const SizedBox(height: 10),
-                  for (Task task in widget.allTasks.take(2)) TaskItem(uid: widget.uid, task: task, isFavourite: ids.contains(widget.uid),)
+                  for (Task task in widget.allTasks)
+                    TaskItem(
+                      uid: widget.uid,
+                      task: task,
+                      isFavourite: ids.contains(widget.uid),
+                    )
                 ],
               ),
             );
-        } else { //
-          return Container();
-        }
-      }
-    );
+          } else {
+            //
+            return Container();
+          }
+        });
   }
 }

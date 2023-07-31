@@ -33,7 +33,8 @@ class _CreateTaskScreen extends State<CreateTaskScreen> {
       _formKey.currentState!.save();
       var user = await MyFunctions.getUserByUid(widget.uid);
       var res = await http.post(
-        Uri.parse('https://nus-living.vercel.app/api/v1/tasks/create/${widget.uid}'),
+        Uri.parse(
+            'https://nus-living.vercel.app/api/v1/tasks/create/${widget.uid}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -141,7 +142,6 @@ class _CreateTaskScreen extends State<CreateTaskScreen> {
                       decoration: const InputDecoration(
                         isDense: true, // Added this
                         contentPadding: EdgeInsets.all(8),
-
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(8),
@@ -151,7 +151,7 @@ class _CreateTaskScreen extends State<CreateTaskScreen> {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
-                            value.trim().length <= 4 ||
+                            value.trim().length <= 19 ||
                             value.trim().length > 50) {
                           return 'Must be between 5 and 30 characters.';
                         }
@@ -222,9 +222,9 @@ class _CreateTaskScreen extends State<CreateTaskScreen> {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
-                            value.trim().length <= 1 ||
+                            value.trim().length <= 20 ||
                             value.trim().length > 1000) {
-                          return 'Must be between 1 and 1000 characters.';
+                          return 'Must be between 20 and 1000 characters.';
                         }
                         return null;
                       },
@@ -257,9 +257,9 @@ class _CreateTaskScreen extends State<CreateTaskScreen> {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
-                            value.trim().length <= 1 ||
+                            value.trim().length <= 19 ||
                             value.trim().length > 300) {
-                          return 'Must be between 1 and 300 characters.';
+                          return 'Must be between 20 and 300 characters.';
                         }
                         return null;
                       },
