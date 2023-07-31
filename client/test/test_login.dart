@@ -30,8 +30,6 @@ void main() async {
     expect(titleFinder, findsWidgets);
     expect(titleFinder2, findsWidgets);
 
-
-
   });
 }
 
