@@ -151,8 +151,8 @@ class _CreateTaskScreen extends State<CreateTaskScreen> {
                       validator: (value) {
                         if (value == null ||
                             value.isEmpty ||
-                            value.trim().length <= 19 ||
-                            value.trim().length > 50) {
+                            value.trim().length <= 4 ||
+                            value.trim().length > 30) {
                           return 'Must be between 5 and 30 characters.';
                         }
                         return null;
